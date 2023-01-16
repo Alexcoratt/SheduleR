@@ -13,7 +13,6 @@ namespace ScheduleR.Classes
     class Client
     {
         private MySqlConnection connection;
-        private User manager;
 
         public Client(string server, string database, string username, string password)
         {
@@ -23,27 +22,10 @@ namespace ScheduleR.Classes
                 ));
         }
 
-        public void setManager(User manager)
-        {
-            this.manager = manager;
-        }
+        // <<<< Database manipulation methods >>>>
+        // <<<< User management
 
-        public User getManager()
-        {
-            return manager;
-        }
-
-        /* Database manipulation methods */
-        public User getUser(uint id)
-        {
-            string query = String.Format("SELECT * FROM users WHERE `ID` = {0};", id);
-            List<List<object>> echo = executeQuery(query);
-            if (!echo.Any())
-                throw new UserNotExistException();
-            return new User(echo.First());
-        }
-
-        public void addUser(User user, string password)
+        public void addUser(User user, string password, User customer)
         {
             MySqlDateTime serverDT = getServerDateTime();
             string query = String.Format(
@@ -63,6 +45,10 @@ namespace ScheduleR.Classes
             string query = String.Format("DELETE FROM users WHERE `ID` = {0};", user.getId());
             executeQuery(query);
         }
+        // >>>>
+
+        // <<<< Group management methods
+        // >>>>
 
         public MySqlDateTime getServerDateTime()
         {
@@ -89,5 +75,6 @@ namespace ScheduleR.Classes
             connection.Close();
             return result;
         }
+        // >>>> Database manipulation methods <<<<
     }
 }

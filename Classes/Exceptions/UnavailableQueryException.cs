@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScheduleR.Classes
+namespace ScheduleR.Classes.Exceptions
 {
-    class Group
+    class UnavailableQueryException : QueryException
     {
-        private uint id;
-        private string name;
-        private int accessLevel;
     }
 }

@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
 using ScheduleR.Classes;
+using ScheduleR.Classes.Queries;
 
 namespace ScheduleR
 {
@@ -20,7 +21,8 @@ namespace ScheduleR
         {
             InitializeComponent();
             Client client = new Client("localhost", "scheduler_schema", "root", "admin");
-            User alex = client.getUser(0);
+
+            User alex = new User(client, 0);
             Console.WriteLine(alex);
         }
     }

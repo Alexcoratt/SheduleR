@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using ScheduleR.Classes.Exceptions;
+using ScheduleR.Classes.Queries;
 
 namespace ScheduleR.Classes
 {
@@ -11,75 +13,91 @@ namespace ScheduleR.Classes
     {
         private uint id;
         private string lastName, firstName, middleName, login;
-        public User(){}
+        private Client client;
 
-        public User(List<object> echo)
-        {
-            setFromEcho(echo);
+        public User(Client client, uint id){
+            this.client = client;
+            setFromDB(id);
         }
 
-        public void setFromEcho(List<object> echo)
+        // <<<< Setting methods >>>>
+        public void setFromDB(uint id)
         {
-            IEnumerator<object> enumerator = echo.GetEnumerator();
+            Query getUserData = new GetUserData(client, this);
+            IEnumerator<object> enumerator = getUserData.execute(id).First().GetEnumerator();
             enumerator.MoveNext();
-            id = (uint)enumerator.Current;
+            setId((uint)enumerator.Current);
 
             enumerator.MoveNext();
-            login = (string)enumerator.Current;
-            enumerator.MoveNext();
+            setLogin((string)enumerator.Current);
 
             enumerator.MoveNext();
-            lastName = (string)enumerator.Current;
-            
             enumerator.MoveNext();
-            firstName = (string)enumerator.Current;
-            
+            setLastName((string)enumerator.Current);
+
             enumerator.MoveNext();
-            middleName = (string)enumerator.Current;
+            setFirstName((string)enumerator.Current);
+
+            enumerator.MoveNext();
+            setMiddleName((string)enumerator.Current);
         }
-
-        public uint getId()
-        {
-            return id;
-        }
-
         public void setLogin(string login)
         {
             this.login = login;
         }
+        public void setLastName(string lastName)
+        {
+            this.lastName = lastName;
+        }
+        public void setFirstName(string firstName)
+        {
+            this.firstName = firstName;
+        }
+        public void setMiddleName(string middleName)
+        {
+            this.middleName = middleName;
+        }
+        public void setId(uint id)
+        {
+            this.id = id;
+        }
+        public void setClient(Client client)
+        {
+            this.client = client;
+        }
+        // >>>> Setting methods <<<<
 
+        // <<<< Getting methods >>>>
+        public uint getId()
+        {
+            return id;
+        }
         public string getLogin()
         {
             return login;
         }
-
-        public void setName(string lastName, string firstName, string middleName="")
-        {
-            this.lastName = lastName;
-            this.firstName = firstName;
-            this.middleName = middleName;
-        }
-
         public string getLastName()
         {
             return lastName;
         }
-
         public string getFirstName()
         {
             return firstName;
         }
-
         public string getMiddleName()
         {
             return middleName;
         }
-
         override
         public string ToString()
         {
             return String.Format("{0,5}\t{1}\t{2} {3} {4}",
                 id, login, lastName, firstName, middleName);
         }
+        /*public List<uint> getGroupsId()
+        {
+
+        }*/
+        // >>>> Getting methods <<<<
     }
 }

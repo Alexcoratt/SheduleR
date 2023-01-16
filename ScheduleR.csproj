@@ -50,6 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Exceptions\QueryException.cs" />
+    <Compile Include="Classes\Exceptions\UnavailableQueryException.cs" />
+    <Compile Include="Classes\Queries\Query.cs" />
+    <Compile Include="Classes\Queries\GetUserData.cs" />
     <Compile Include="Classes\Client.cs" />
     <Compile Include="Classes\Exceptions\ClientException.cs" />
     <Compile Include="Classes\Exceptions\UserNotExistException.cs" />
