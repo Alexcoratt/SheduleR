@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
+using ScheduleR.Classes.Exceptions;
 
 namespace ScheduleR.Classes
 {
     class Client
     {
         private MySqlConnection connection;
+        private User manager;
 
         public Client(string server, string database, string username, string password)
         {
@@ -21,30 +23,44 @@ namespace ScheduleR.Classes
                 ));
         }
 
+        public void setManager(User manager)
+        {
+            this.manager = manager;
+        }
+
+        public User getManager()
+        {
+            return manager;
+        }
+
         /* Database manipulation methods */
         public User getUser(uint id)
         {
             string query = String.Format("SELECT * FROM users WHERE `ID` = {0};", id);
-            return new User(executeQuery(query).First());
+            List<List<object>> echo = executeQuery(query);
+            if (!echo.Any())
+                throw new UserNotExistException();
+            return new User(echo.First());
         }
+
         public void addUser(User user, string password)
         {
             MySqlDateTime serverDT = getServerDateTime();
             string query = String.Format(
                 "INSERT INTO users " +
-                "(`ID`, `Last Name`, `First Name`, `Middle Name`, `Login`, `Password`," +
+                "(`ID`, `Login`, `Password`, `Last Name`, `First Name`, `Middle Name`, " +
                 "`Registration DateTime`, `Last Update DateTime`) " +
                 "VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');",
 
-                user.getId(), user.getLastName(), user.getFirstName(), user.getMiddleName(),
-                user.getLogin(), password, serverDT, serverDT
+                user.getId(), user.getLogin(), password, 
+                user.getLastName(), user.getFirstName(), user.getMiddleName(), serverDT, serverDT
                 );
             executeQuery(query);
         }
 
-        public void removeUser(uint id)
+        public void removeUser(User user)
         {
-            string query = String.Format("DELETE FROM users WHERE `ID` = {0};", id);
+            string query = String.Format("DELETE FROM users WHERE `ID` = {0};", user.getId());
             executeQuery(query);
         }
 

@@ -21,19 +21,21 @@ namespace ScheduleR.Classes
         public void setFromEcho(List<object> echo)
         {
             IEnumerator<object> enumerator = echo.GetEnumerator();
+            enumerator.MoveNext();
             id = (uint)enumerator.Current;
-            enumerator.MoveNext();
 
-            lastName = (string)enumerator.Current;
             enumerator.MoveNext();
-
-            firstName = (string)enumerator.Current;
-            enumerator.MoveNext();
-
-            middleName = (string)enumerator.Current;
-            enumerator.MoveNext();
-
             login = (string)enumerator.Current;
+            enumerator.MoveNext();
+
+            enumerator.MoveNext();
+            lastName = (string)enumerator.Current;
+            
+            enumerator.MoveNext();
+            firstName = (string)enumerator.Current;
+            
+            enumerator.MoveNext();
+            middleName = (string)enumerator.Current;
         }
 
         public uint getId()
@@ -76,7 +78,7 @@ namespace ScheduleR.Classes
         override
         public string ToString()
         {
-            return String.Format("{0:5}{1}\t{2}\t{3}\t{4}",
+            return String.Format("{0,5}\t{1}\t{2} {3} {4}",
                 id, login, lastName, firstName, middleName);
         }
     }

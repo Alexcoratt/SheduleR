@@ -20,7 +20,8 @@ namespace ScheduleR
         {
             InitializeComponent();
             Client client = new Client("localhost", "scheduler_schema", "root", "admin");
-            Console.WriteLine(client.getUser(0));
+            User alex = client.getUser(0);
+            Console.WriteLine(alex);
         }
     }
 }
