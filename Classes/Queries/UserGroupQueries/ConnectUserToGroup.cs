@@ -12,6 +12,7 @@ namespace ScheduleR.Classes.Queries
     {
         public ConnectUserToGroup(Client client, User customer) : base(client, customer)
         {
+            customerAccessLevel = (byte)new GetUserAccessLevel(client, customer).executeToObject(customer.getId());
             requiredParamsHint = "1. User ID\n2. Group ID";
             queryTemplate =
                 "INSERT INTO user_group_connections " +
@@ -19,9 +20,12 @@ namespace ScheduleR.Classes.Queries
                 "VALUES ('{0}', '{1}', '{2}');";
         }
 
-        public override List<List<object>> execute(params object[] args)
+        /*
+        public override List<Dictionary<string, object>> execute(params object[] args)
         {
-            return base.execute(args);
+            bool isCustomerInGroup = (bool) new IsUserInGroup(client, customer).executeToObject(customer.getId(), args[1]);
+            if (customerAccessLevel > 2 ||  || customerAccessLevel == 2 && !isCustomerInGroup)
         }
+        */
     }
 }

@@ -21,7 +21,7 @@ namespace ScheduleR.Classes.Queries
             this.customer = customer;
         }
 
-        public virtual List<List<object>> execute(params object[] args)
+        public virtual List<Dictionary<string, object>> execute(params object[] args)
         {
             return client.executeQuery(String.Format(queryTemplate, args));
         }
@@ -30,13 +30,13 @@ namespace ScheduleR.Classes.Queries
         {
             try
             {
-                List<List<object>> data = execute(args);
+                List<Dictionary<string, object>> data = execute(args);
                 if (!data.Any())
                     return "No Data";
                 StringBuilder sb = new StringBuilder();
-                foreach (List<object> line in data)
+                foreach (Dictionary<string, object> line in data)
                 {
-                    foreach (object datum in line)
+                    foreach (object datum in line.Values)
                         sb.Append(datum.ToString()).Append("\t");
                     sb.AppendLine();
                 }

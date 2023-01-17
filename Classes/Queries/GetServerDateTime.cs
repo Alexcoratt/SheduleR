@@ -12,21 +12,21 @@ namespace ScheduleR.Classes.Queries
     {
         public GetServerDateTime(Client client, User customer) : base(client, customer)
         {
-            queryTemplate = "SELECT NOW();";
+            queryTemplate = "SELECT NOW() as 'Current Time';";
         }
 
-        public override List<List<object>> execute(params object[] args)
+        public override List<Dictionary<string, object>> execute(params object[] args)
         {
-            List<List<object>> result = new List<List<object>>();
-            List<object> subres = new List<object>();
-            subres.Add(executeToObject(args));
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+            Dictionary<string, object> subres = new Dictionary<string, object>();
+            subres.Add("Current Time", executeToObject(args));
             result.Add(subres);
             return result;
         }
 
         public override object executeToObject(params object[] args)
         {
-            DateTime dt = (DateTime)client.executeQuery(queryTemplate).First().First();
+            DateTime dt = (DateTime)client.executeQuery(queryTemplate).First()["Current Time"];
             string result = dt.ToString("yyyy-MM-dd HH:mm:ss");
             return result;
         }

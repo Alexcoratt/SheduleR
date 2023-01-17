@@ -18,11 +18,11 @@ namespace ScheduleR.Classes.Queries
                 "WHERE `User ID` = {0} AND `Group ID` = {1};";
         }
 
-        public override List<List<object>> execute(params object[] args)
+        public override List<Dictionary<string, object>> execute(params object[] args)
         {
-            List<List<object>> result = new List<List<object>>();
-            List<object> subres = new List<object>();
-            subres.Add(executeToObject(args));
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+            Dictionary<string, object> subres = new Dictionary<string, object>();
+            subres.Add("Is User In Group", executeToObject(args));
             result.Add(subres);
             return result;
         }

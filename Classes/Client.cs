@@ -55,20 +55,20 @@ namespace ScheduleR.Classes
             return (MySqlDateTime)executeQuery("SELECT NOW();").First().First();
         }
 
-        public List<List<object>> executeQuery(string query)
+        public List<Dictionary<string, object>> executeQuery(string query)
         {
             connection.Open();
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = command.ExecuteReader();
 
-            List<List<object>> result = new List<List<object>>();
-            List<object> subres;
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+            Dictionary<string, object> subres;
 
             while (reader.Read())
             {
-                subres = new List<object>();
+                subres = new Dictionary<string, object>();
                 for (int i = 0; i < reader.FieldCount; i++)
-                    subres.Add(reader.GetValue(i));
+                    subres.Add(reader.GetName(i), reader.GetValue(i));
                 result.Add(subres);
             }
             reader.Close();
