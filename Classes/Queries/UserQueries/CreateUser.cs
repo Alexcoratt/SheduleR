@@ -21,7 +21,11 @@ namespace ScheduleR.Classes.Queries
                 "INSERT INTO users " +
                 "(`ID`, `Login`, `Password`, `Last Name`, `First Name`, `Middle Name`, " +
                 "`Registration DateTime`, `Last Update DateTime`) " +
-                "VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{6}');";
+                "VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{6}'); " +
+                "" +
+                "SELECT `ID`, `Login`, `Last Name`, `First Name`, `Middle Name`, " +
+                "`Registration DateTime`, `Last Update DateTime` " +
+                "FROM users WHERE `ID` = '{0}';";
         }
 
         public override bool isAvailable(params object[] args)

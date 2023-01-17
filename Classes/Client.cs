@@ -13,6 +13,7 @@ namespace ScheduleR.Classes
     class Client
     {
         private MySqlConnection connection;
+        public Dictionary<string, byte> dbConnectionTypes;
 
         public Client(string server, string database, string username, string password)
         {
@@ -20,6 +21,10 @@ namespace ScheduleR.Classes
                 "server={0};user={1};database={2};password={3}",
                 server, username, database, password
                 ));
+            dbConnectionTypes = new Dictionary<string, byte>();
+            dbConnectionTypes.Add("user-group", 0);
+            dbConnectionTypes.Add("event-group", 1);
+            dbConnectionTypes.Add("note-group", 2);
         }
 
         // <<<< Database reading methods >>>>
@@ -32,37 +37,40 @@ namespace ScheduleR.Classes
 
         public Dictionary<string, object> getUserData(uint userId)
         {
-            return executeQuery(String.Format(
-                "SELECT * FROM users WHERE `ID` = {0};"
-                , userId)).First();
+            Dictionary<string, object> data = executeQuery(String.Format(
+                "SELECT * FROM users WHERE `ID` = {0};", userId)).First();
+            data.Remove("Password");
+            return data;
         }
 
         public byte getUserAccessLevel(uint userId)
         {
             return (byte)executeQuery(String.Format(
-                "SELECT MAX(`Access Level`) as 'Access Level'" +
-                "FROM user_groups " +
-                "INNER JOIN (user_group_connections) " +
-                "ON (user_group_connections.`Group ID` = user_groups.`ID`) " +
-                "WHERE user_group_connections.`User ID` = {0};",
+                "SELECT MIN(`Access Level`) as 'Access Level' " +
+                "FROM scheduler_schema.groups " +
+                "INNER JOIN (connections) " +
+                "ON (connections.`Second ID` = `ID`) " +
+                "WHERE connections.`First ID` = {0} AND " +
+                "`Connection Type` = " + dbConnectionTypes["user-group"] + ";",
                 userId)).First()["Access Level"];
         }
 
-        public Dictionary<string, object> getUserGroupData(uint groupId)
+        public Dictionary<string, object> getGroupData(uint groupId)
         {
             return executeQuery(String.Format(
-                "SELECT * FROM user_groups " +
+                "SELECT * FROM scheduler_schema.groups " +
                 "WHERE `ID` = {0};", groupId
                 )).First();
         }
 
-        public List<uint> getUserConnections(uint userId)
+        public List<uint> getGroups(uint userId)
         {
             List<uint> result = new List<uint>();
             List<Dictionary<string, object>> serverAnswer = executeQuery(String.Format(
-                "SELECT `Group ID` " +
-                "FROM user_group_connections " +
-                "WHERE `User ID` = {0};",
+                "SELECT `Second ID` as 'Group ID'" +
+                "FROM connections " +
+                "WHERE `First ID` = {0} AND " +
+                "`Connection Type` = " + dbConnectionTypes["user-group"] + ";",
                 userId));
             foreach (Dictionary<string, object> line in serverAnswer)
                 result.Add((uint)line["Group ID"]);
@@ -85,7 +93,8 @@ namespace ScheduleR.Classes
 
         public List<Dictionary<string, object>> executeQuery(string query)
         {
-            connection.Open();
+            if (connection.State.ToString() == "Closed")
+                connection.Open();
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = command.ExecuteReader();
 

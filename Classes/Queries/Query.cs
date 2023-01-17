@@ -56,7 +56,7 @@ namespace ScheduleR.Classes.Queries
 
         public virtual object executeManually(params object[] args) // enter all parameters manually (only for superusers in inhereted classes)
         {
-            return execute(args);
+            return client.executeQuery(String.Format(queryTemplate, args));
         }
     }
 }

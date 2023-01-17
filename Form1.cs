@@ -21,12 +21,6 @@ namespace ScheduleR
         {
             InitializeComponent();
             Client client = new Client("localhost", "scheduler_schema", "root", "admin");
-
-            Query cu = new CreateUser(client, 0);
-            Query cug = new CreateUserGroup(client, 1);
-            Query cc = new CreateConnection(client, 0);
-            //cu.execute("O", "Khva Sen", "");
-            cug.execute("group2", 2, 2);
         }
     }
 }
