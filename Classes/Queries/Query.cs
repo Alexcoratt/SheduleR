@@ -11,18 +11,24 @@ namespace ScheduleR.Classes.Queries
     abstract class Query
     {
         protected Client client;
-        protected User customer;
         protected string queryTemplate = "SELECT 1";
         public string requiredParamsHint = "No required params";
-        protected byte customerAccessLevel;
-        public Query(Client client, User customer)
+        protected Dictionary<string, object> customerData;
+        public Query(Client client, uint customerId)
         {
             this.client = client;
-            this.customer = customer;
+            customerData = client.getUserData(customerId);
+        }
+
+        public virtual bool isAvailable(params object[] args)
+        {
+            return true;
         }
 
         public virtual List<Dictionary<string, object>> execute(params object[] args)
         {
+            if (!isAvailable(args))
+                throw new UnavailableQueryException();
             return client.executeQuery(String.Format(queryTemplate, args));
         }
 
@@ -46,11 +52,6 @@ namespace ScheduleR.Classes.Queries
             {
                 return "ERROR " + err.ToString();
             }
-        }
-
-        public virtual object executeToObject(params object[] args) // not standart execution
-        {
-            return execute(args);
         }
 
         public virtual object executeManually(params object[] args) // enter all parameters manually (only for superusers in inhereted classes)

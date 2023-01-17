@@ -10,9 +10,8 @@ namespace ScheduleR.Classes.Queries
 {
     class CreateUserGroup : Query
     {
-        public CreateUserGroup(Client client, User customer) : base(client, customer)
+        public CreateUserGroup(Client client, uint customerId) : base(client, customerId)
         {
-            customerAccessLevel = (byte)new GetUserAccessLevel(client, customer).executeToObject(customer.getId());
             requiredParamsHint = 
                 "1. Group name\n" +
                 "2. Access Level\n" +
@@ -24,18 +23,21 @@ namespace ScheduleR.Classes.Queries
                 "VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{4}');";
         }
 
-        public override List<List<object>> execute(params object[] args)
+        public override bool isAvailable(params object[] args)
         {
-            if (customerAccessLevel > 1 || (int)args[1] <= customerAccessLevel || (uint)(int)args[2] < 2)
-                throw new UnavailableQueryException();
-            uint groupId = (uint)new GetFreeId(client, customer).executeToObject("user_groups");
-            string dt = (string)new GetServerDateTime(client, customer).executeToObject();
-            return base.execute(groupId, args[0], args[1], args[2], dt);
+            uint access = client.getUserAccessLevel((uint)customerData["ID"]);
+            return access <= 1 && (int)args[2] > access && (int)args[3] > 1;
+        }
+
+        public override List<Dictionary<string, object>> execute(params object[] args)
+        {
+            return base.execute(client.getFreeId("user_groups"), 
+                args[0], args[1], args[2], client.getServerDateTime());
         }
 
         public override object executeManually(params object[] args)
         {
-            if (customerAccessLevel > 0)
+            if (client.getUserAccessLevel((uint)customerData["ID"]) > 0)
                 throw new UnavailableQueryException();
             return base.execute(args);
         }

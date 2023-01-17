@@ -22,37 +22,65 @@ namespace ScheduleR.Classes
                 ));
         }
 
-        // <<<< Database manipulation methods >>>>
-        // <<<< User management
+        // <<<< Database reading methods >>>>
 
-        public void addUser(User user, string password)
+        public string getServerDateTime()
         {
-            MySqlDateTime serverDT = getServerDateTime();
-            string query = String.Format(
-                "INSERT INTO users " +
-                "(`ID`, `Login`, `Password`, `Last Name`, `First Name`, `Middle Name`, " +
-                "`Registration DateTime`, `Last Update DateTime`) " +
-                "VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');",
-
-                user.getId(), user.getLogin(), password, 
-                user.getLastName(), user.getFirstName(), user.getMiddleName(), serverDT, serverDT
-                );
-            executeQuery(query);
+            return ((DateTime)executeQuery("SELECT NOW() as 'Current Time';").
+                First()["Current Time"]).ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        public void removeUser(User user)
+        public Dictionary<string, object> getUserData(uint userId)
         {
-            string query = String.Format("DELETE FROM users WHERE `ID` = {0};", user.getId());
-            executeQuery(query);
+            return executeQuery(String.Format(
+                "SELECT * FROM users WHERE `ID` = {0};"
+                , userId)).First();
         }
-        // >>>>
 
-        // <<<< Group management methods
-        // >>>>
-
-        public MySqlDateTime getServerDateTime()
+        public byte getUserAccessLevel(uint userId)
         {
-            return (MySqlDateTime)executeQuery("SELECT NOW();").First().First();
+            return (byte)executeQuery(String.Format(
+                "SELECT MAX(`Access Level`) as 'Access Level'" +
+                "FROM user_groups " +
+                "INNER JOIN (user_group_connections) " +
+                "ON (user_group_connections.`Group ID` = user_groups.`ID`) " +
+                "WHERE user_group_connections.`User ID` = {0};",
+                userId)).First()["Access Level"];
+        }
+
+        public Dictionary<string, object> getUserGroupData(uint groupId)
+        {
+            return executeQuery(String.Format(
+                "SELECT * FROM user_groups " +
+                "WHERE `ID` = {0};", groupId
+                )).First();
+        }
+
+        public List<uint> getUserConnections(uint userId)
+        {
+            List<uint> result = new List<uint>();
+            List<Dictionary<string, object>> serverAnswer = executeQuery(String.Format(
+                "SELECT `Group ID` " +
+                "FROM user_group_connections " +
+                "WHERE `User ID` = {0};",
+                userId));
+            foreach (Dictionary<string, object> line in serverAnswer)
+                result.Add((uint)line["Group ID"]);
+            return result;
+        }
+
+        public uint getFreeId(string tableName)
+        {
+            IEnumerator<Dictionary<string, object>> e = executeQuery(String.Format(
+                "SELECT `ID` FROM {0} ORDER BY `ID`;", tableName
+                )).GetEnumerator();
+
+            uint lastId = 0;
+            while (e.MoveNext() && (uint)e.Current["ID"] - lastId <= 1)
+            {
+                lastId = (uint)e.Current["ID"];
+            }
+            return lastId + 1;
         }
 
         public List<Dictionary<string, object>> executeQuery(string query)
@@ -75,6 +103,6 @@ namespace ScheduleR.Classes
             connection.Close();
             return result;
         }
-        // >>>> Database manipulation methods <<<<
+        // >>>> Database reading methods <<<<
     }
 }
