@@ -94,10 +94,12 @@ namespace ScheduleR.Classes
             return String.Format("{0,5}\t{1}\t{2} {3} {4}",
                 id, login, lastName, firstName, middleName);
         }
-        /*public List<uint> getGroupsId()
+        /*
+        public List<uint> getGroupsId()
         {
 
-        }*/
+        }
+        */
         // >>>> Getting methods <<<<
     }
 }

@@ -23,7 +23,24 @@ namespace ScheduleR
             Client client = new Client("localhost", "scheduler_schema", "root", "admin");
 
             User alex = new User(client, 0);
-            Console.WriteLine(alex);
+            Query gud = new GetUserGroupsData(client, alex);
+            Console.WriteLine(gud.executeToString(0));
+
+            Query gfid = new GetFreeId(client, alex);
+            Console.WriteLine(gfid.executeToString("users"));
+            Console.WriteLine(gfid.nsExecute("users"));
+
+            Query gual = new GetUserAccessLevel(client, alex);
+            Console.WriteLine(gual.nsExecute(0));
+            Console.WriteLine(gual.nsExecute(1));
+
+            Query gsdt = new GetServerDateTime(client, alex);
+            Console.WriteLine(gsdt.nsExecute());
+
+            User testUser = new User(client, 1);
+            Console.WriteLine(testUser);
+            AddUser au = new AddUser(client, testUser);
+            au.execute("O", "Khva Sen", "", 1);
         }
     }
 }

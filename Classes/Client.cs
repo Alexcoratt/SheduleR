@@ -25,7 +25,7 @@ namespace ScheduleR.Classes
         // <<<< Database manipulation methods >>>>
         // <<<< User management
 
-        public void addUser(User user, string password, User customer)
+        public void addUser(User user, string password)
         {
             MySqlDateTime serverDT = getServerDateTime();
             string query = String.Format(

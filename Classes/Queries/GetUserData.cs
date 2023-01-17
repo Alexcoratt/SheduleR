@@ -11,6 +11,7 @@ namespace ScheduleR.Classes.Queries
 
         public GetUserData(Client client, User customer) : base(client, customer)
         {
+            requiredParamsHint = "1. User ID";
             queryTemplate = "SELECT * FROM users WHERE `ID` = {0};";
         }
     }
