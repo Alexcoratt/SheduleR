@@ -52,13 +52,14 @@
   <ItemGroup>
     <Compile Include="Classes\Exceptions\QueryException.cs" />
     <Compile Include="Classes\Exceptions\UnavailableQueryException.cs" />
-    <Compile Include="Classes\Queries\AddUser.cs" />
+    <Compile Include="Classes\Queries\UserQueries\CreateUser.cs" />
+    <Compile Include="Classes\Queries\UserGroupQueries\CreateUserGroup.cs" />
     <Compile Include="Classes\Queries\GetFreeId.cs" />
     <Compile Include="Classes\Queries\GetServerDateTime.cs" />
-    <Compile Include="Classes\Queries\GetUserAccessLevel.cs" />
-    <Compile Include="Classes\Queries\GetUserGroupsData.cs" />
+    <Compile Include="Classes\Queries\UserQueries\GetUserAccessLevel.cs" />
+    <Compile Include="Classes\Queries\UserQueries\GetUserGroupsData.cs" />
     <Compile Include="Classes\Queries\Query.cs" />
-    <Compile Include="Classes\Queries\GetUserData.cs" />
+    <Compile Include="Classes\Queries\UserQueries\GetUserData.cs" />
     <Compile Include="Classes\Client.cs" />
     <Compile Include="Classes\Exceptions\ClientException.cs" />
     <Compile Include="Classes\Exceptions\UserNotExistException.cs" />

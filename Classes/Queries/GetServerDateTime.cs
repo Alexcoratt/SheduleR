@@ -12,24 +12,22 @@ namespace ScheduleR.Classes.Queries
     {
         public GetServerDateTime(Client client, User customer) : base(client, customer)
         {
-            queryTemplate = "SELECT NOW()";
+            queryTemplate = "SELECT NOW();";
         }
 
         public override List<List<object>> execute(params object[] args)
         {
             List<List<object>> result = new List<List<object>>();
             List<object> subres = new List<object>();
-            subres.Add(nsExecute(args));
+            subres.Add(executeToObject(args));
             result.Add(subres);
             return result;
         }
 
-        public override object nsExecute(params object[] args)
+        public override object executeToObject(params object[] args)
         {
-            if (!isAvailable())
-                throw new UnavailableQueryException();
             DateTime dt = (DateTime)client.executeQuery(queryTemplate).First().First();
-            string result = dt.ToString("yyyy-MM-dd HH:mm");
+            string result = dt.ToString("yyyy-MM-dd HH:mm:ss");
             return result;
         }
     }

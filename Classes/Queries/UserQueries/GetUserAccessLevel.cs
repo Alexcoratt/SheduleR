@@ -19,7 +19,7 @@ namespace ScheduleR.Classes.Queries
                 "WHERE user_group_connections.`User ID` = {0};";
         }
 
-        public override object nsExecute(params object[] args)
+        public override object executeToObject(params object[] args)
         {
             return execute(args).First().First();
         }

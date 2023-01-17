@@ -13,23 +13,16 @@ namespace ScheduleR.Classes.Queries
         protected Client client;
         protected User customer;
         protected string queryTemplate = "SELECT 1";
-        protected string requiredParamsHint = "No required params";
-        protected uint customerAccessLevel;
+        public string requiredParamsHint = "No required params";
+        protected byte customerAccessLevel;
         public Query(Client client, User customer)
         {
             this.client = client;
             this.customer = customer;
         }
 
-        public virtual bool isAvailable()
-        {
-            return true;
-        }
-
         public virtual List<List<object>> execute(params object[] args)
         {
-            if (!isAvailable())
-                throw new UnavailableQueryException();
             return client.executeQuery(String.Format(queryTemplate, args));
         }
 
@@ -55,14 +48,14 @@ namespace ScheduleR.Classes.Queries
             }
         }
 
-        public virtual object nsExecute(params object[] args) // not standart execution
+        public virtual object executeToObject(params object[] args) // not standart execution
         {
             return execute(args);
         }
 
-        public virtual string requiredParams()
+        public virtual object executeManually(params object[] args) // enter all parameters manually (only for superusers in inhereted classes)
         {
-            return requiredParamsHint;
+            return execute(args);
         }
     }
 }

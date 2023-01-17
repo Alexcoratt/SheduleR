@@ -8,15 +8,14 @@ using ScheduleR.Classes.Exceptions;
 
 namespace ScheduleR.Classes.Queries
 {
-    class GetFreeId : Query
+    class IsUserInGroup : Query
     {
-        public GetFreeId(Client client, User customer) : base (client, customer)
+        public IsUserInGroup(Client client, User customer) : base(client, customer)
         {
-            requiredParamsHint = "1. Table name";
+            requiredParamsHint = "1. User ID\n2. Group ID";
             queryTemplate =
-                "SELECT `ID` " +
-                "FROM {0} " +
-                "ORDER BY `ID`;";
+                "SELECT * FROM user_group_connections " +
+                "WHERE `User ID` = {0} AND `Group ID` = {1};";
         }
 
         public override List<List<object>> execute(params object[] args)
@@ -30,11 +29,7 @@ namespace ScheduleR.Classes.Queries
 
         public override object executeToObject(params object[] args)
         {
-            uint lastValue = 0;
-            IEnumerator<List<object>> enumerator = client.executeQuery(String.Format(queryTemplate, args)).GetEnumerator();
-            while (enumerator.MoveNext() && (uint)enumerator.Current.First() - lastValue <= 1)
-                lastValue = (uint)enumerator.Current.First();
-            return lastValue + 1;
+            return base.execute(args).Any();
         }
     }
 }
