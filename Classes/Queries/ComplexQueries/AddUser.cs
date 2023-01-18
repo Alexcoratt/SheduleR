@@ -10,10 +10,7 @@ namespace ScheduleR.Classes.Queries
     {
         public AddUser(Client client, uint customerId) : base(client, customerId)
         {
-            requiredParamsHint =
-                "1. Last name\n" +
-                "2. First Name\n" +
-                "3. Middle Name\n";
+
         }
     }
 }

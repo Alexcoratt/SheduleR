@@ -21,6 +21,12 @@ namespace ScheduleR
         {
             InitializeComponent();
             Client client = new Client("localhost", "scheduler_schema", "root", "admin");
+
+            Console.WriteLine(client.getServerDateTime());
+            Console.WriteLine(Client.dictToString(client.getUserData(2)));
+            Console.WriteLine(client.getUserAccessLevel(1));
+            Console.WriteLine(Client.dictToString(client.getGroupData(0)));
+            Console.WriteLine(Client.echoToString(client.getUserGroupsData(0)));
         }
     }
 }

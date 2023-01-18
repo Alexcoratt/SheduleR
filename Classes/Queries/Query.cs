@@ -12,24 +12,25 @@ namespace ScheduleR.Classes.Queries
     {
         protected Client client;
         protected string queryTemplate = "SELECT 1";
-        public string requiredParamsHint = "No required params";
         protected Dictionary<string, object> customerData;
+        protected uint customerAccessLevel;
         public Query(Client client, uint customerId)
         {
             this.client = client;
             customerData = client.getUserData(customerId);
+            customerAccessLevel = client.getUserAccessLevel(customerId);
         }
 
         public virtual bool isAvailable(params object[] args)
         {
-            return true;
+            return customerAccessLevel == 0;
         }
 
         public virtual List<Dictionary<string, object>> execute(params object[] args)
         {
             if (!isAvailable(args))
                 throw new UnavailableQueryException();
-            return client.executeQuery(String.Format(queryTemplate, args));
+            return client.readQuery(String.Format(queryTemplate, args));
         }
 
         public string executeToString(params object[] args)
@@ -52,11 +53,6 @@ namespace ScheduleR.Classes.Queries
             {
                 return "ERROR " + err.ToString();
             }
-        }
-
-        public virtual object executeManually(params object[] args) // enter all parameters manually (only for superusers in inhereted classes)
-        {
-            return client.executeQuery(String.Format(queryTemplate, args));
         }
     }
 }
