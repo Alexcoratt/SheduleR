@@ -29,12 +29,16 @@ namespace ScheduleR
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.LoginLabel = new System.Windows.Forms.Label();
             this.PasswordLabel = new System.Windows.Forms.Label();
             this.LoginTextBox = new System.Windows.Forms.TextBox();
             this.PasswordTextBox = new System.Windows.Forms.TextBox();
             this.SubmitButton = new System.Windows.Forms.Button();
             this.ObserverLink = new System.Windows.Forms.LinkLabel();
+            this.StatusLabel = new System.Windows.Forms.Label();
+            this.SnapLabel = new System.Windows.Forms.Label();
+            this.StatusDescriptionToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // LoginLabel
@@ -72,7 +76,7 @@ namespace ScheduleR
             // 
             // SubmitButton
             // 
-            this.SubmitButton.Location = new System.Drawing.Point(97, 110);
+            this.SubmitButton.Location = new System.Drawing.Point(97, 147);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(75, 23);
             this.SubmitButton.TabIndex = 4;
@@ -83,18 +87,45 @@ namespace ScheduleR
             // ObserverLink
             // 
             this.ObserverLink.AutoSize = true;
-            this.ObserverLink.Location = new System.Drawing.Point(80, 136);
+            this.ObserverLink.Location = new System.Drawing.Point(80, 173);
             this.ObserverLink.Name = "ObserverLink";
             this.ObserverLink.Size = new System.Drawing.Size(109, 13);
             this.ObserverLink.TabIndex = 5;
             this.ObserverLink.TabStop = true;
             this.ObserverLink.Text = "Log-in as an observer";
             // 
+            // StatusLabel
+            // 
+            this.StatusLabel.Location = new System.Drawing.Point(34, 112);
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(201, 18);
+            this.StatusLabel.TabIndex = 6;
+            this.StatusLabel.Text = "SL";
+            this.StatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.StatusDescriptionToolTip.SetToolTip(this.StatusLabel, "text");
+            // 
+            // SnapLabel
+            // 
+            this.SnapLabel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.SnapLabel.Location = new System.Drawing.Point(0, 0);
+            this.SnapLabel.Name = "SnapLabel";
+            this.SnapLabel.Size = new System.Drawing.Size(267, 17);
+            this.SnapLabel.TabIndex = 7;
+            this.SnapLabel.Text = "___";
+            this.SnapLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // StatusDescriptionToolTip
+            // 
+            this.StatusDescriptionToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.StatusDescriptionToolTip.ToolTipTitle = "Status Description";
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(267, 181);
+            this.ClientSize = new System.Drawing.Size(267, 203);
+            this.Controls.Add(this.SnapLabel);
+            this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.ObserverLink);
             this.Controls.Add(this.SubmitButton);
             this.Controls.Add(this.PasswordTextBox);
@@ -117,5 +148,8 @@ namespace ScheduleR
         private System.Windows.Forms.TextBox PasswordTextBox;
         private System.Windows.Forms.Button SubmitButton;
         private System.Windows.Forms.LinkLabel ObserverLink;
+        private System.Windows.Forms.Label StatusLabel;
+        private System.Windows.Forms.Label SnapLabel;
+        private System.Windows.Forms.ToolTip StatusDescriptionToolTip;
     }
 }

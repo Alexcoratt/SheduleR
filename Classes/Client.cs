@@ -13,8 +13,8 @@ namespace ScheduleR.Classes
     public class Client
     {
         private MySqlConnection connection;
-        private uint cust_id;
-        private string cust_key;
+        private Dictionary<string, object> userData;
+        private string userKey;
 
         public Client(string server, string database, string username, string password)
         {
@@ -43,26 +43,74 @@ namespace ScheduleR.Classes
             MySqlParameter returnParam = new MySqlParameter("@DateTime", MySqlDbType.DateTime);
             returnParam.Direction = System.Data.ParameterDirection.ReturnValue;
             parameters.Add(returnParam);
-            ExecuteFunction("get_datetime", parameters);
+            ExecuteProcedure("get_datetime", parameters);
             return ((System.DateTime)returnParam.Value).ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        public string LogIn(string login, string pwd)
+        public void LogIn(string login, string pwd, out string statusName, out string statusDescription)
         {
-            MySqlParameter varKey = new MySqlParameter("@key", MySqlDbType.VarChar);
-            varKey.Direction = System.Data.ParameterDirection.ReturnValue;
-
             MySqlParameter varLogin = new MySqlParameter("@login", MySqlDbType.VarChar);
             varLogin.Value = login;
             MySqlParameter varPwd = new MySqlParameter("@pwd", MySqlDbType.VarChar);
             varPwd.Value = pwd;
 
+            MySqlParameter userId = new MySqlParameter("@user_id", MySqlDbType.VarChar);
+            userId.Direction = System.Data.ParameterDirection.Output;
+            MySqlParameter userKey = new MySqlParameter("@user_key", MySqlDbType.VarChar);
+            userKey.Direction = System.Data.ParameterDirection.Output;
+            MySqlParameter qStatus = new MySqlParameter("@query_status", MySqlDbType.VarChar);
+            qStatus.Direction = System.Data.ParameterDirection.Output;
+
             List<MySqlParameter> parameters = new List<MySqlParameter>();
             parameters.Add(varLogin);
             parameters.Add(varPwd);
-            parameters.Add(varKey);
-            ExecuteFunction("log_in", parameters);
-            return varKey.Value.ToString();
+            parameters.Add(userId);
+            parameters.Add(userKey);
+            parameters.Add(qStatus);
+
+            ExecuteProcedure("log_in", parameters);
+
+            uint parsedUserId, parsedQueryStatusId;
+            uint.TryParse(userId.Value.ToString(), out parsedUserId);
+            uint.TryParse(qStatus.Value.ToString(), out parsedQueryStatusId);
+
+            getQueryStatusInfo(parsedQueryStatusId, out statusName, out statusDescription);
+
+            if (parsedQueryStatusId == 0) {
+                userData = getUserData(parsedUserId);
+                this.userKey = userKey.Value.ToString();
+            }
+        }
+
+        public Dictionary<string, object> getUserData(uint userId)
+        {
+            MySqlParameter userIdPar = new MySqlParameter("@user_id", MySqlDbType.UInt32);
+            userIdPar.Value = userId;
+
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
+            parameters.Add(userIdPar);
+
+            return ReadProcedure("get_user_data", parameters).First();
+        }
+
+        public void getQueryStatusInfo(uint queryId, out string statusName, out string statusDescription)
+        {
+            MySqlParameter queryIdPar = new MySqlParameter("@status_id", MySqlDbType.UInt32);
+            queryIdPar.Value = queryId;
+
+            MySqlParameter statusNamePar = new MySqlParameter("@status_name", MySqlDbType.VarChar);
+            statusNamePar.Direction = System.Data.ParameterDirection.Output;
+
+            MySqlParameter statusDescriptionPar = new MySqlParameter("@status_description", MySqlDbType.VarChar);
+            statusDescriptionPar.Direction = System.Data.ParameterDirection.Output;
+
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
+            parameters.Add(queryIdPar);
+            parameters.Add(statusNamePar);
+            parameters.Add(statusDescriptionPar);
+            ExecuteProcedure("get_query_status_info", parameters);
+            statusName = statusNamePar.Value.ToString();
+            statusDescription = statusDescriptionPar.Value.ToString();
         }
 
         public List<Dictionary<string, object>> ReadQuery(string query)
@@ -112,7 +160,7 @@ namespace ScheduleR.Classes
             return result;
         }
 
-        public void ExecuteFunction(string functionName, List<MySqlParameter> parameters)
+        public void ExecuteProcedure(string functionName, List<MySqlParameter> parameters)
         {
             MySqlCommand command = new MySqlCommand(functionName, connection);
             command.CommandType = System.Data.CommandType.StoredProcedure;
