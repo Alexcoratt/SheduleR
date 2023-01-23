@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ScheduleR.Classes.Exceptions
 {
-    class UserNotExistException : ClientException
+    class AuthorizationFailedException : ClientException
     {
     }
 }

@@ -10,108 +10,64 @@ using ScheduleR.Classes.Exceptions;
 
 namespace ScheduleR.Classes
 {
-    class Client
+    public class Client
     {
         private MySqlConnection connection;
-        public Dictionary<string, byte> dbConnectionTypes;
+        private uint cust_id;
+        private string cust_key;
 
         public Client(string server, string database, string username, string password)
         {
             connection = new MySqlConnection(string.Format(
                 "server={0};user={1};database={2};password={3}",
                 server, username, database, password
-                ));
-            dbConnectionTypes = new Dictionary<string, byte>();
-            dbConnectionTypes.Add("user-group", 0);
-            dbConnectionTypes.Add("event-group", 1);
-            dbConnectionTypes.Add("note-group", 2);
+            ));
         }
 
         // <<<< Database reading methods >>>>
-        public void openConnection()
+        public void OpenConnection()
         {
             if (connection.State.ToString() == "Closed")
                 connection.Open();
         }
 
-        public void closeConnection()
+        public void CloseConnection()
         {
             if (connection.State.ToString() == "Open")
                 connection.Close();
         }
 
-        public string getServerDateTime()
+        public string GetServerDateTime()
         {
             List<MySqlParameter> parameters = new List<MySqlParameter>();
             MySqlParameter returnParam = new MySqlParameter("@DateTime", MySqlDbType.DateTime);
             returnParam.Direction = System.Data.ParameterDirection.ReturnValue;
             parameters.Add(returnParam);
-            executeFunction("get_datetime", parameters);
+            ExecuteFunction("get_datetime", parameters);
             return ((System.DateTime)returnParam.Value).ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        public Dictionary<string, object> getUserData(uint userId)
+        public string LogIn(string login, string pwd)
         {
+            MySqlParameter varKey = new MySqlParameter("@key", MySqlDbType.VarChar);
+            varKey.Direction = System.Data.ParameterDirection.ReturnValue;
+
+            MySqlParameter varLogin = new MySqlParameter("@login", MySqlDbType.VarChar);
+            varLogin.Value = login;
+            MySqlParameter varPwd = new MySqlParameter("@pwd", MySqlDbType.VarChar);
+            varPwd.Value = pwd;
+
             List<MySqlParameter> parameters = new List<MySqlParameter>();
-            MySqlParameter userIdParam = new MySqlParameter("@user_id", MySqlDbType.UInt32);
-            userIdParam.Direction = System.Data.ParameterDirection.Input;
-            userIdParam.Value = userId;
-            parameters.Add(userIdParam);
-            return readProcedure("get_user_data", parameters).First();
+            parameters.Add(varLogin);
+            parameters.Add(varPwd);
+            parameters.Add(varKey);
+            ExecuteFunction("log_in", parameters);
+            return varKey.Value.ToString();
         }
 
-        public byte getUserAccessLevel(uint userId)
+        public List<Dictionary<string, object>> ReadQuery(string query)
         {
-            List<MySqlParameter> parameters = new List<MySqlParameter>();
-            MySqlParameter uId = new MySqlParameter("@user_id", MySqlDbType.UInt32);
-            uId.Value = userId;
-            parameters.Add(uId);
-
-            MySqlParameter access = new MySqlParameter("@access", MySqlDbType.UByte);
-            access.Direction = System.Data.ParameterDirection.ReturnValue;
-            parameters.Add(access);
-
-            executeFunction("get_user_access_level", parameters);
-            return (byte)access.Value;
-        }
-
-        public Dictionary<string, object> getGroupData(uint groupId)
-        {
-            List<MySqlParameter> parameters = new List<MySqlParameter>();
-            MySqlParameter gId = new MySqlParameter("@group_id", MySqlDbType.UInt32);
-            gId.Direction = System.Data.ParameterDirection.Input;
-            gId.Value = groupId;
-            parameters.Add(gId);
-            return readProcedure("get_group_data", parameters).First();
-        }
-
-        public List<Dictionary<string, object>> getUserGroupsData(uint userId)
-        {
-            List<MySqlParameter> parameters = new List<MySqlParameter>();
-            MySqlParameter user = new MySqlParameter("@user_id", MySqlDbType.UInt32);
-            user.Direction = System.Data.ParameterDirection.Input;
-            user.Value = userId;
-            parameters.Add(user);
-            return readProcedure("get_user_groups_data", parameters);
-        }
-
-        public uint getFreeId(string tableName)
-        {
-            IEnumerator<Dictionary<string, object>> e = readQuery(String.Format(
-                "SELECT `ID` FROM {0} ORDER BY `ID`;", tableName
-                )).GetEnumerator();
-
-            uint lastId = 0;
-            while (e.MoveNext() && (uint)e.Current["ID"] - lastId <= 1)
-            {
-                lastId = (uint)e.Current["ID"];
-            }
-            return lastId + 1;
-        }
-
-        public List<Dictionary<string, object>> readQuery(string query)
-        {
-            openConnection();
+            OpenConnection();
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = command.ExecuteReader();
 
@@ -126,12 +82,12 @@ namespace ScheduleR.Classes
                 result.Add(subres);
             }
             reader.Close();
-            closeConnection();
+            CloseConnection();
             return result;
         }
 
         public List<Dictionary<string, object>>
-            readProcedure(string procedureName, List<MySqlParameter> parameters)
+            ReadProcedure(string procedureName, List<MySqlParameter> parameters)
         {
             MySqlCommand command = new MySqlCommand(procedureName, connection);
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -140,7 +96,7 @@ namespace ScheduleR.Classes
             List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
             Dictionary<string, object> subres;
 
-            openConnection();
+            OpenConnection();
             MySqlDataReader reader = command.ExecuteReader();
 
             while (reader.Read())
@@ -151,24 +107,24 @@ namespace ScheduleR.Classes
                 result.Add(subres);
             }
             reader.Close();
-            closeConnection();
+            CloseConnection();
 
             return result;
         }
 
-        public void executeFunction(string functionName, List<MySqlParameter> parameters)
+        public void ExecuteFunction(string functionName, List<MySqlParameter> parameters)
         {
             MySqlCommand command = new MySqlCommand(functionName, connection);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.AddRange(parameters.ToArray());
 
-            openConnection();
+            OpenConnection();
             command.ExecuteScalar();
-            closeConnection();
+            CloseConnection();
         }
 
         // >>>> Database reading methods <<<<
-        public static string echoToString(List<Dictionary<string, object>> echo)
+        public static string EchoToString(List<Dictionary<string, object>> echo)
         {
             StringBuilder result = new StringBuilder();
             foreach (Dictionary<string, object> line in echo)
@@ -181,7 +137,7 @@ namespace ScheduleR.Classes
             return result.ToString();
         }
 
-        public static string dictToString(Dictionary<string, object> dict)
+        public static string DictToString(Dictionary<string, object> dict)
         {
             StringBuilder result = new StringBuilder();
             foreach (string key in dict.Keys)
@@ -190,7 +146,7 @@ namespace ScheduleR.Classes
             return result.ToString();
         }
 
-        public static string joinToString(string separator, object[] arr)
+        public static string JoinToString(string separator, object[] arr)
         {
             StringBuilder result = new StringBuilder();
             for (int i = 0; i < arr.Length - 1; i++)
