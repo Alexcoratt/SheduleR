@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
-using ScheduleR.Classes.Exceptions;
 
 namespace ScheduleR.Classes
 {
@@ -47,7 +46,7 @@ namespace ScheduleR.Classes
             return ((System.DateTime)returnParam.Value).ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        public void LogIn(string login, string pwd, out string statusName, out string statusDescription)
+        public void LogIn(string login, string pwd, out uint statusId, out string statusName, out string statusDescription)
         {
             MySqlParameter varLogin = new MySqlParameter("@login", MySqlDbType.VarChar);
             varLogin.Value = login;
@@ -76,6 +75,8 @@ namespace ScheduleR.Classes
 
             getQueryStatusInfo(parsedQueryStatusId, out statusName, out statusDescription);
 
+            statusId = parsedQueryStatusId;
+
             if (parsedQueryStatusId == 0) {
                 userData = getUserData(parsedUserId);
                 this.userKey = userKey.Value.ToString();
@@ -87,10 +88,7 @@ namespace ScheduleR.Classes
             MySqlParameter userIdPar = new MySqlParameter("@user_id", MySqlDbType.UInt32);
             userIdPar.Value = userId;
 
-            List<MySqlParameter> parameters = new List<MySqlParameter>();
-            parameters.Add(userIdPar);
-
-            return ReadProcedure("get_user_data", parameters).First();
+            return ReadProcedure("get_user_data", userIdPar).First();
         }
 
         public void getQueryStatusInfo(uint queryId, out string statusName, out string statusDescription)
@@ -111,6 +109,14 @@ namespace ScheduleR.Classes
             ExecuteProcedure("get_query_status_info", parameters);
             statusName = statusNamePar.Value.ToString();
             statusDescription = statusDescriptionPar.Value.ToString();
+        }
+
+        public List<Dictionary<string, object>> getAvailableEvents()
+        {
+            MySqlParameter userId = new MySqlParameter("@user_id", MySqlDbType.UInt32);
+            userId.Value = userData["ID"];
+
+            return ReadProcedure("get_available_events", userId);
         }
 
         public List<Dictionary<string, object>> ReadQuery(string query)
@@ -134,8 +140,7 @@ namespace ScheduleR.Classes
             return result;
         }
 
-        public List<Dictionary<string, object>>
-            ReadProcedure(string procedureName, List<MySqlParameter> parameters)
+        public List<Dictionary<string, object>> ReadProcedure(string procedureName, List<MySqlParameter> parameters)
         {
             MySqlCommand command = new MySqlCommand(procedureName, connection);
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -158,6 +163,13 @@ namespace ScheduleR.Classes
             CloseConnection();
 
             return result;
+        }
+
+        public List<Dictionary<string, object>> ReadProcedure(string procedureName, MySqlParameter parameter)
+        {
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
+            parameters.Add(parameter);
+            return ReadProcedure(procedureName, parameters);
         }
 
         public void ExecuteProcedure(string functionName, List<MySqlParameter> parameters)

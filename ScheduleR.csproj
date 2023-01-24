@@ -50,10 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Exceptions\ClientExceptions\AuthorizationFailedException.cs" />
     <Compile Include="Classes\Queries\Query.cs" />
     <Compile Include="Classes\Client.cs" />
-    <Compile Include="Classes\Exceptions\ClientExceptions\ClientException.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

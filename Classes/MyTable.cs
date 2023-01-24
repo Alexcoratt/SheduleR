@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScheduleR.Classes.Exceptions
+namespace ScheduleR.Classes
 {
-    class AuthorizationFailedException : ClientException
+    class MyTable
     {
+
     }
 }
