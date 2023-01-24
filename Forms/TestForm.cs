@@ -29,6 +29,23 @@ namespace ScheduleR.Forms
 
             Echo echo = client.ReadProcedure("get_available_events", parameters);
             Console.WriteLine(echo.ToString(true));
+
+            Dictionary<string, object> test = new Dictionary<string, object>();
+            test.Add("Name", "Name");
+            test.Add("Description", "Description");
+            test.Add("Begin DateTime", "Begin DateTimesdagsfjsfdgfjfhsdfh");
+            test.Add("End DateTime", "End DateTimedfgfdshjhfgjdg");
+
+            Dictionary<string, string> cdn = new Dictionary<string, string>();
+            cdn.Add("headingCol", "Heading");
+            cdn.Add("textCol", "Text");
+            cdn.Add("beginDTCol", "Begin DateTime");
+            cdn.Add("endDTCol", "End DateTime");
+
+            myDataGridView1.colDBNames = cdn;
+            myDataGridView1.AddEcho(echo);
+            myDataGridView1.AddEcho(echo);
+            myDataGridView1.AddEcho(echo);
         }
     }
 }

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using ScheduleR.Classes.Exceptions;
+
 namespace ScheduleR.Classes
 {
     public class Echo
@@ -39,6 +41,24 @@ namespace ScheduleR.Classes
             values[key].Add(value);
         }
 
+        public object GetValue(int row, string key, object defaultValue = null)
+        {
+            try
+            {
+                return values[key][row];
+            } catch (Exception err)
+            {
+                return defaultValue;
+            }
+        }
+
+        public int GetHeight()
+        {
+            if (values.Values.Count > 0)
+                return values.Values.First().Count;
+            return 0;
+        }
+
         public string ToString(bool showHeader = false)
         {
             StringBuilder sb = new StringBuilder();
@@ -70,7 +90,7 @@ namespace ScheduleR.Classes
             return sb.ToString();
         }
 
-        public Dictionary<string, object> lineToDict(int lineNum)
+        public Dictionary<string, object> RowToDict(int lineNum)
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
             foreach (string key in values.Keys)

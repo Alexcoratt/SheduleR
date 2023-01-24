@@ -89,7 +89,7 @@ namespace ScheduleR.Classes
             MySqlParameter userIdPar = new MySqlParameter("@user_id", MySqlDbType.UInt32);
             userIdPar.Value = userId;
 
-            return ReadProcedure("get_user_data", userIdPar).lineToDict(0);
+            return ReadProcedure("get_user_data", userIdPar).RowToDict(0);
         }
 
         public void getQueryStatusInfo(uint queryId, out string statusName, out string statusDescription)
@@ -168,7 +168,7 @@ namespace ScheduleR.Classes
             CloseConnection();
 
             if (firstIteration)
-                throw new EmptyQueryRespond();
+                throw new EmptyQueryRespondException();
 
             return result;
         }
