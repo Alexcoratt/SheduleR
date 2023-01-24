@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Echo.cs" />
+    <Compile Include="Classes\Exceptions\EmptyQueryRespond.cs" />
+    <Compile Include="Classes\Exceptions\QueryException.cs" />
     <Compile Include="Classes\MyDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>

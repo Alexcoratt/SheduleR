@@ -87,7 +87,7 @@ namespace ScheduleR
 
         public void OnLogin()
         {
-            FillEventTable(client.getAvailableEvents());
+            //FillEventTable(client.getAvailableEvents());
         }
     }
 }

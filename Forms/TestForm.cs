@@ -21,12 +21,14 @@ namespace ScheduleR.Forms
             InitializeComponent();
 
             client = new Client("192.168.0.106", "scheduler_schema", "appclient", "appclient");
-            Echo echo = new Echo();
 
             MySqlParameter testPar = new MySqlParameter("@user_id", MySqlDbType.UInt32);
-            testPar.Value = 4;
-            echo.Set(client.ReadProcedure("get_available_events", testPar));
-            Console.WriteLine(echo.ToString());
+            testPar.Value = 0;
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
+            parameters.Add(testPar);
+
+            Echo echo = client.ReadProcedure("get_available_events", parameters);
+            Console.WriteLine(echo.ToString(true));
         }
     }
 }

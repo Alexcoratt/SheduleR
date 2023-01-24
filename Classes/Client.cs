@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
+using ScheduleR.Classes.Exceptions;
 
 namespace ScheduleR.Classes
 {
@@ -88,7 +89,7 @@ namespace ScheduleR.Classes
             MySqlParameter userIdPar = new MySqlParameter("@user_id", MySqlDbType.UInt32);
             userIdPar.Value = userId;
 
-            return ReadProcedure("get_user_data", userIdPar).First();
+            return ReadProcedure("get_user_data", userIdPar).lineToDict(0);
         }
 
         public void getQueryStatusInfo(uint queryId, out string statusName, out string statusDescription)
@@ -111,7 +112,7 @@ namespace ScheduleR.Classes
             statusDescription = statusDescriptionPar.Value.ToString();
         }
 
-        public List<Dictionary<string, object>> getAvailableEvents()
+        public Echo getAvailableEvents()
         {
             MySqlParameter userId = new MySqlParameter("@user_id", MySqlDbType.UInt32);
             userId.Value = userData["ID"];
@@ -140,34 +141,39 @@ namespace ScheduleR.Classes
             return result;
         }
 
-        public List<Dictionary<string, object>> ReadProcedure(string procedureName, List<MySqlParameter> parameters)
+        public Echo ReadProcedure(string procedureName, List<MySqlParameter> parameters)
         {
             MySqlCommand command = new MySqlCommand(procedureName, connection);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.AddRange(parameters.ToArray());
 
-            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
-            Dictionary<string, object> subres;
+            Echo result = new Echo();
 
             OpenConnection();
 
             MySqlDataReader reader = command.ExecuteReader();
 
-            
+            bool firstIteration = true;
             while (reader.Read())
             {
-                subres = new Dictionary<string, object>();
                 for (int i = 0; i < reader.FieldCount; i++)
-                    subres.Add(reader.GetName(i), reader.GetValue(i));
-                result.Add(subres);
+                {
+                    if (firstIteration)
+                        result.AddColumns(reader.GetName(i));
+                    result.AddValue(reader.GetName(i), reader.GetValue(i));
+                }
+                firstIteration = false;
             }
             reader.Close();
             CloseConnection();
 
+            if (firstIteration)
+                throw new EmptyQueryRespond();
+
             return result;
         }
 
-        public List<Dictionary<string, object>> ReadProcedure(string procedureName, MySqlParameter parameter)
+        public Echo ReadProcedure(string procedureName, MySqlParameter parameter)
         {
             List<MySqlParameter> parameters = new List<MySqlParameter>();
             parameters.Add(parameter);
@@ -186,18 +192,6 @@ namespace ScheduleR.Classes
         }
 
         // >>>> Database reading methods <<<<
-        public static string EchoToString(List<Dictionary<string, object>> echo)
-        {
-            StringBuilder result = new StringBuilder();
-            foreach (Dictionary<string, object> line in echo)
-            {
-                foreach (string key in line.Keys)
-                    result.Append(line[key].ToString()).
-                        Append("\t");
-                result.AppendLine();
-            }
-            return result.ToString();
-        }
 
         public static string DictToString(Dictionary<string, object> dict)
         {
