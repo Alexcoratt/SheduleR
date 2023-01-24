@@ -31,6 +31,8 @@ namespace ScheduleR
         {
             this.UserTabControl = new System.Windows.Forms.TabControl();
             this.tabPageEvents = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.eventTable = new System.Windows.Forms.TableLayoutPanel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,8 +40,6 @@ namespace ScheduleR
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.profileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.eventTable = new System.Windows.Forms.TableLayoutPanel();
             this.UserTabControl.SuspendLayout();
             this.tabPageEvents.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -68,6 +68,31 @@ namespace ScheduleR
             this.tabPageEvents.TabIndex = 0;
             this.tabPageEvents.Text = "Events";
             this.tabPageEvents.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Location = new System.Drawing.Point(182, 251);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 100);
+            this.panel1.TabIndex = 1;
+            // 
+            // eventTable
+            // 
+            this.eventTable.AutoScroll = true;
+            this.eventTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.eventTable.ColumnCount = 4;
+            this.eventTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.96672F));
+            this.eventTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.78203F));
+            this.eventTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.45757F));
+            this.eventTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.79368F));
+            this.eventTable.Dock = System.Windows.Forms.DockStyle.Top;
+            this.eventTable.Location = new System.Drawing.Point(3, 3);
+            this.eventTable.Name = "eventTable";
+            this.eventTable.RowCount = 1;
+            this.eventTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.eventTable.Size = new System.Drawing.Size(600, 203);
+            this.eventTable.TabIndex = 0;
             // 
             // tabPage2
             // 
@@ -124,31 +149,6 @@ namespace ScheduleR
             this.profileToolStripMenuItem.Name = "profileToolStripMenuItem";
             this.profileToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.profileToolStripMenuItem.Text = "Profile";
-            // 
-            // panel1
-            // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(182, 251);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 100);
-            this.panel1.TabIndex = 1;
-            // 
-            // eventTable
-            // 
-            this.eventTable.AutoScroll = true;
-            this.eventTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.eventTable.ColumnCount = 4;
-            this.eventTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.96672F));
-            this.eventTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.78203F));
-            this.eventTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.45757F));
-            this.eventTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.79368F));
-            this.eventTable.Dock = System.Windows.Forms.DockStyle.Top;
-            this.eventTable.Location = new System.Drawing.Point(3, 3);
-            this.eventTable.Name = "eventTable";
-            this.eventTable.RowCount = 1;
-            this.eventTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.eventTable.Size = new System.Drawing.Size(600, 203);
-            this.eventTable.TabIndex = 0;
             // 
             // MainForm
             // 

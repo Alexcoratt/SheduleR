@@ -46,3 +46,4 @@ C:\Users\rewq2\projects\SheduleR\bin\Debug\ZstdNet.dll
 C:\Users\rewq2\projects\SheduleR\obj\Debug\ScheduleR.exe.config
 C:\Users\rewq2\projects\SheduleR\obj\Debug\ScheduleR.LoginForm.resources
 C:\Users\rewq2\projects\SheduleR\obj\Debug\ScheduleR.MainForm.resources
+C:\Users\rewq2\projects\SheduleR\obj\Debug\ScheduleR.Forms.TestForm.resources

@@ -150,8 +150,10 @@ namespace ScheduleR.Classes
             Dictionary<string, object> subres;
 
             OpenConnection();
+
             MySqlDataReader reader = command.ExecuteReader();
 
+            
             while (reader.Read())
             {
                 subres = new Dictionary<string, object>();
