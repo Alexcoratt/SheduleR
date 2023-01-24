@@ -47,5 +47,12 @@ namespace ScheduleR
         {
             Application.Exit();
         }
+
+        public void ReInit()
+        {
+            Controls.Clear();
+            InitializeComponent();
+            StatusLabel.Hide();
+        }
     }
 }

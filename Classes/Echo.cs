@@ -46,7 +46,7 @@ namespace ScheduleR.Classes
             try
             {
                 return values[key][row];
-            } catch (Exception err)
+            } catch (Exception ignored)
             {
                 return defaultValue;
             }
@@ -90,7 +90,7 @@ namespace ScheduleR.Classes
             return sb.ToString();
         }
 
-        public Dictionary<string, object> RowToDict(int lineNum)
+        public Dictionary<string, object> AsDict(int lineNum)
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
             foreach (string key in values.Keys)
