@@ -14,6 +14,7 @@ using ScheduleR.Classes;
 using ScheduleR.Classes.Queries;
 
 using ScheduleR.Forms.EventManipulation;
+using ScheduleR.Forms.UserManipulation;
 
 namespace ScheduleR
 {
@@ -22,6 +23,8 @@ namespace ScheduleR
         Client client;
         LoginForm loginForm;
         Echo events;
+        Echo groups;
+        Echo users;
 
         public MainForm()
         {
@@ -40,26 +43,8 @@ namespace ScheduleR
         public void OnLogin()
         {
             RefreshEventGrid();
+            RefreshUserGrid();
             ConsoleWriteLine("Authorized as id = " + client.userId.ToString());
-        }
-
-        public void RefreshEventGrid()
-        {
-            eventGridView.Rows.Clear();
-            eventGridView.colDBNames = new Dictionary<string, string>();
-            eventGridView.colDBNames.Add("headingCol", "Heading");
-            eventGridView.colDBNames.Add("textCol", "Text");
-            eventGridView.colDBNames.Add("beginDTCol", "Begin DateTime");
-            eventGridView.colDBNames.Add("endDTCol", "End DateTime");
-            eventGridView.colDBNames.Add("isPublicEventCol", "Public Event");
-
-            SetEvents(client.getAvailableEvents());
-            eventGridView.AddEcho(events);
-        }
-
-        public void SetEvents(Echo echo)
-        {
-            events = echo;
         }
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -86,13 +71,47 @@ namespace ScheduleR
             InitializeComponent();
         }
 
+        public void ConsoleWriteLine(object str)
+        {
+            string line;
+            if (str is null)
+                line = "\\null";
+            else
+                line = str.ToString();
+            consoleTextBox.Text += line + "\n";
+        }
+
+        public void ConsoleWriteStatus(uint queryStatusId)
+        {
+            string statusName, statusDescription;
+            client.getQueryStatusInfo(queryStatusId, out statusName, out statusDescription);
+            ConsoleWriteLine(String.Format("Query status ID: {0}\nStatus name: {1}\nStatus description: {2}", queryStatusId, statusName, statusDescription));
+        }
+
+
+        // event methods
+        public void RefreshEventGrid()
+        {
+            eventGridView.Rows.Clear();
+            eventGridView.colDBNames = new Dictionary<string, string>();
+            eventGridView.colDBNames.Add("headingCol", "Heading");
+            eventGridView.colDBNames.Add("textCol", "Text");
+            eventGridView.colDBNames.Add("beginDTCol", "Begin DateTime");
+            eventGridView.colDBNames.Add("endDTCol", "End DateTime");
+            eventGridView.colDBNames.Add("isPublicEventCol", "Public Event");
+
+            events = client.getAvailableEvents();
+            eventGridView.AddEcho(events);
+        }
+
+
         private void eventGridView_SelectionChanged(object sender, EventArgs e)
         {
             if (eventGridView.SelectedRows.Count > 0)
-                SetMoreData(eventGridView.SelectedRows[0].Index);
+                SetMoreEventData(eventGridView.SelectedRows[0].Index);
         }
 
-        private void SetMoreData(int rowIndex)
+        private void SetMoreEventData(int rowIndex)
         {
             Dictionary<string, object> eventData = events.AsDict(rowIndex);
             Dictionary<string, object> eventOwnerData = client.getUserData((uint)eventData["Owner ID"]);
@@ -115,37 +134,66 @@ namespace ScheduleR
             new EventUpdateForm(client, this).Show();
         }
 
-        public void ConsoleWriteLine(object str)
-        {
-            string line;
-            if (str is null)
-                line = "\\null";
-            else
-                line = str.ToString();
-            consoleTextBox.Text += line + "\n";
-        }
-
-        public void ConsoleWriteStatus(uint queryStatusId)
-        {
-            string statusName, statusDescription;
-            client.getQueryStatusInfo(queryStatusId, out statusName, out statusDescription);
-            ConsoleWriteLine(String.Format("Query status ID: {0}\nStatus name: {1}\nStatus description: {2}", queryStatusId, statusName, statusDescription));
-        }
-
         private void deleteEventToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            uint queryStatus = 1;
-            if (eventGridView.SelectedRows.Count > 0) {
+            if (eventGridView.SelectedRows.Count > 0 && MessageBox.Show("Do you want to delete event?", "Delete event", MessageBoxButtons.OKCancel) == DialogResult.OK) {
+                uint queryStatus;
                 Dictionary<string, object> eventData = events.AsDict(eventGridView.SelectedRows[0].Index);
                 client.deleteEvent((uint)eventData["ID"], out queryStatus);
+                ConsoleWriteStatus(queryStatus);
+                RefreshEventGrid();
             }
-            ConsoleWriteStatus(queryStatus);
-            RefreshEventGrid();
         }
 
         private void refreshAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RefreshEventGrid();
         }
+        // event methods <<<<
+
+        // user methods
+
+        public void RefreshUserGrid()
+        {
+            usersDataGridView.Rows.Clear();
+            usersDataGridView.colDBNames = new Dictionary<string, string>();
+            usersDataGridView.colDBNames.Add("userId", "ID");
+            usersDataGridView.colDBNames.Add("login", "Login");
+            usersDataGridView.colDBNames.Add("lastName", "Last Name");
+            usersDataGridView.colDBNames.Add("firstName", "First Name");
+            usersDataGridView.colDBNames.Add("accessLevel", "Access Level");
+
+            users = client.getUsersData();
+            usersDataGridView.AddEcho(users);
+        }
+
+        private void registerUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new UserRegisterForm(client, this).Show();
+        }
+
+        private void deleteUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                uint selectedId = (uint)usersDataGridView.SelectedRows[0].Cells[0].Value;
+                uint queryStatusId;
+                if (MessageBox.Show("Do you want to delete user?", "Delete user", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    client.userDelete(selectedId, out queryStatusId);
+                    ConsoleWriteStatus(queryStatusId);
+                    RefreshUserGrid();
+                }
+            }
+            catch (NullReferenceException err) {
+                ConsoleWriteLine(err);
+            }
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshUserGrid();
+        }
+        // user methods <<<<
     }
 }

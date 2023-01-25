@@ -128,15 +128,7 @@ namespace ScheduleR.Classes
             statusDescription = statusDescriptionPar.Value.ToString();
         }
 
-        public Echo getAvailableEvents()
-        {
-            MySqlParameter userIdPar = new MySqlParameter("@user_id", MySqlDbType.UInt32);
-            userIdPar.Value = userId;
-
-            return ReadProcedure("get_available_events", userIdPar);
-        }
-
-        // Auth requiring queries
+        // <<<< event methods
         public void createEvent(string heading, string text, DateTime begDT, DateTime endDT, out uint eventId, out uint queryStatusId)
         {
             MySqlParameter begDTPar = new MySqlParameter("@begin_dt", MySqlDbType.DateTime);
@@ -241,7 +233,90 @@ namespace ScheduleR.Classes
             ExecuteProcedure("complex_event_delete", parameters);
             queryStatusId = (uint)queryStatusIdPar.Value;
         }
-        // ---- ---- ---- ----
+
+        public Echo getAvailableEvents()
+        {
+            MySqlParameter userIdPar = new MySqlParameter("@user_id", MySqlDbType.UInt32);
+            userIdPar.Value = userId;
+
+            return ReadProcedure("get_available_events", userIdPar);
+        }
+        // event methods >>>>
+
+        // <<<< user methods
+        public Echo getUsersData()
+        {
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
+            return ReadProcedure("get_users_data", parameters);
+        }
+
+        public void userRegister(string lastName, string firstName, string middleName, out uint userId, out string pwd, out uint queryStatus)
+        {
+            MySqlParameter lName = new MySqlParameter("@l_name", MySqlDbType.VarChar);
+            lName.Value = lastName;
+
+            MySqlParameter fName = new MySqlParameter("@f_name", MySqlDbType.VarChar);
+            fName.Value = firstName;
+
+            MySqlParameter mName = new MySqlParameter("@m_name", MySqlDbType.VarChar);
+            mName.Value = middleName;
+
+            MySqlParameter custIdPar = new MySqlParameter("@cust_id", MySqlDbType.UInt32);
+            custIdPar.Value = this.userId;
+
+            MySqlParameter custKeyPar = new MySqlParameter("@cust_key", MySqlDbType.VarChar);
+            custKeyPar.Value = userKey;
+
+            MySqlParameter userIdPar = new MySqlParameter("@user_id", MySqlDbType.UInt32);
+            userIdPar.Direction = System.Data.ParameterDirection.Output;
+
+            MySqlParameter pwdPar = new MySqlParameter("@pwd", MySqlDbType.VarChar);
+            pwdPar.Direction = System.Data.ParameterDirection.Output;
+
+            MySqlParameter queryStatusIdPar = new MySqlParameter("@query_status", MySqlDbType.UInt32);
+            queryStatusIdPar.Direction = System.Data.ParameterDirection.Output;
+
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
+            parameters.Add(lName);
+            parameters.Add(fName);
+            parameters.Add(mName);
+            parameters.Add(custIdPar);
+            parameters.Add(custKeyPar);
+            parameters.Add(userIdPar);
+            parameters.Add(pwdPar);
+            parameters.Add(queryStatusIdPar);
+            ExecuteProcedure("complex_user_register", parameters);
+
+            userId = (uint)userIdPar.Value;
+            pwd = pwdPar.Value.ToString();
+            queryStatus = (uint)queryStatusIdPar.Value;
+        }
+
+        public void userDelete(uint userId, out uint queryStatusId)
+        {
+            MySqlParameter userIdPar = new MySqlParameter("@user_id", MySqlDbType.UInt32);
+            userIdPar.Value = userId;
+
+            MySqlParameter custIdPar = new MySqlParameter("@cust_id", MySqlDbType.UInt32);
+            custIdPar.Value = this.userId;
+
+            MySqlParameter custKeyPar = new MySqlParameter("@cust_key", MySqlDbType.VarChar);
+            custKeyPar.Value = userKey;
+
+            MySqlParameter queryStatusIdPar = new MySqlParameter("@query_status", MySqlDbType.UInt32);
+            queryStatusIdPar.Direction = System.Data.ParameterDirection.Output;
+
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
+            parameters.Add(userIdPar);
+            parameters.Add(custIdPar);
+            parameters.Add(custKeyPar);
+            parameters.Add(queryStatusIdPar);
+
+            ExecuteProcedure("complex_user_delete", parameters);
+            queryStatusId = (uint)queryStatusIdPar.Value;
+        }
+
+        // user methods >>>>
 
         /* public List<Dictionary<string, object>> ReadQuery(string query)
         {
@@ -290,9 +365,6 @@ namespace ScheduleR.Classes
             }
             reader.Close();
             CloseConnection();
-
-            if (firstIteration)
-                throw new EmptyQueryRespondException();
 
             return result;
         }
