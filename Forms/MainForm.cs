@@ -40,6 +40,7 @@ namespace ScheduleR
         public void OnLogin()
         {
             RefreshEventGrid();
+            ConsoleWriteLine("Authorized as id = " + client.userId.ToString());
         }
 
         public void RefreshEventGrid()
@@ -107,6 +108,44 @@ namespace ScheduleR
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new EventCreateForm(client, this).Show();
+        }
+
+        private void updateEventToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new EventUpdateForm(client, this).Show();
+        }
+
+        public void ConsoleWriteLine(object str)
+        {
+            string line;
+            if (str is null)
+                line = "\\null";
+            else
+                line = str.ToString();
+            consoleTextBox.Text += line + "\n";
+        }
+
+        public void ConsoleWriteStatus(uint queryStatusId)
+        {
+            string statusName, statusDescription;
+            client.getQueryStatusInfo(queryStatusId, out statusName, out statusDescription);
+            ConsoleWriteLine(String.Format("Query status ID: {0}\nStatus name: {1}\nStatus description: {2}", queryStatusId, statusName, statusDescription));
+        }
+
+        private void deleteEventToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            uint queryStatus = 1;
+            if (eventGridView.SelectedRows.Count > 0) {
+                Dictionary<string, object> eventData = events.AsDict(eventGridView.SelectedRows[0].Index);
+                client.deleteEvent((uint)eventData["ID"], out queryStatus);
+            }
+            ConsoleWriteStatus(queryStatus);
+            RefreshEventGrid();
+        }
+
+        private void refreshAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshEventGrid();
         }
     }
 }

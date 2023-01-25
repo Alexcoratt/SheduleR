@@ -65,6 +65,12 @@
     <Compile Include="Forms\EventManipulation\EventCreateForm.Designer.cs">
       <DependentUpon>EventCreateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\EventManipulation\EventUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EventManipulation\EventUpdateForm.Designer.cs">
+      <DependentUpon>EventUpdateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,6 +93,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\EventManipulation\EventCreateForm.resx">
       <DependentUpon>EventCreateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EventManipulation\EventUpdateForm.resx">
+      <DependentUpon>EventUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

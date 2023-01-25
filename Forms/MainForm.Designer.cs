@@ -34,7 +34,6 @@ namespace ScheduleR
             this.tabPageEvents = new System.Windows.Forms.TabPage();
             this.eventIdLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.myDataGridView1 = new ScheduleR.Classes.MyDataGridView();
             this.eventLastUpdateDTLabel = new System.Windows.Forms.Label();
             this.eventCreationDTLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,10 +42,9 @@ namespace ScheduleR
             this.label1 = new System.Windows.Forms.Label();
             this.eventTextBox = new System.Windows.Forms.RichTextBox();
             this.eventHeadingLabel = new System.Windows.Forms.Label();
-            this.eventGridView = new ScheduleR.Classes.MyDataGridView();
             this.contextEventGridMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPageGroups = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,30 +57,41 @@ namespace ScheduleR
             this.deleteEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.publishEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unpublishEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.commentTextBox = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.commentCreateButton = new System.Windows.Forms.Button();
+            this.myDataGridView1 = new ScheduleR.Classes.MyDataGridView();
+            this.commentOwnerId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commentText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isPublicComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.eventGridView = new ScheduleR.Classes.MyDataGridView();
             this.beginDTCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.endDTCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.headingCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.isPublicEventCol = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.commentTextBox = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.commentCreateButton = new System.Windows.Forms.Button();
-            this.commentOwnerId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.commentText = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.isPublicComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.consoleTextBox = new System.Windows.Forms.TextBox();
+            this.myDataGridView2 = new ScheduleR.Classes.MyDataGridView();
+            this.groupId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupAccessLevel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupMembMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isMyGroup = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.consoleTextBox = new System.Windows.Forms.RichTextBox();
+            this.refreshAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UserTabControl.SuspendLayout();
             this.tabPageEvents.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.eventGridView)).BeginInit();
             this.contextEventGridMenu.SuspendLayout();
+            this.tabPageGroups.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // UserTabControl
             // 
             this.UserTabControl.Controls.Add(this.tabPageEvents);
-            this.UserTabControl.Controls.Add(this.tabPage2);
+            this.UserTabControl.Controls.Add(this.tabPageGroups);
             this.UserTabControl.Dock = System.Windows.Forms.DockStyle.Left;
             this.UserTabControl.Location = new System.Drawing.Point(0, 24);
             this.UserTabControl.Name = "UserTabControl";
@@ -131,21 +140,6 @@ namespace ScheduleR
             this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 10;
             this.label5.Text = "Event ID";
-            // 
-            // myDataGridView1
-            // 
-            this.myDataGridView1.AllowUserToAddRows = false;
-            this.myDataGridView1.AllowUserToDeleteRows = false;
-            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.commentOwnerId,
-            this.commentText,
-            this.isPublicComment});
-            this.myDataGridView1.Location = new System.Drawing.Point(405, 0);
-            this.myDataGridView1.Name = "myDataGridView1";
-            this.myDataGridView1.ReadOnly = true;
-            this.myDataGridView1.Size = new System.Drawing.Size(264, 302);
-            this.myDataGridView1.TabIndex = 8;
             // 
             // eventLastUpdateDTLabel
             // 
@@ -223,26 +217,6 @@ namespace ScheduleR
             this.eventHeadingLabel.TabIndex = 0;
             this.eventHeadingLabel.Text = "Heading";
             // 
-            // eventGridView
-            // 
-            this.eventGridView.AllowUserToAddRows = false;
-            this.eventGridView.AllowUserToDeleteRows = false;
-            this.eventGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.eventGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.beginDTCol,
-            this.endDTCol,
-            this.headingCol,
-            this.isPublicEventCol});
-            this.eventGridView.ContextMenuStrip = this.contextEventGridMenu;
-            this.eventGridView.Location = new System.Drawing.Point(0, 0);
-            this.eventGridView.Name = "eventGridView";
-            this.eventGridView.ReadOnly = true;
-            this.eventGridView.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.eventGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.eventGridView.Size = new System.Drawing.Size(399, 170);
-            this.eventGridView.TabIndex = 1;
-            this.eventGridView.SelectionChanged += new System.EventHandler(this.eventGridView_SelectionChanged);
-            // 
             // contextEventGridMenu
             // 
             this.contextEventGridMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -250,9 +224,10 @@ namespace ScheduleR
             this.updateEventToolStripMenuItem,
             this.deleteEventToolStripMenuItem,
             this.publishEventToolStripMenuItem,
-            this.unpublishEventToolStripMenuItem});
+            this.unpublishEventToolStripMenuItem,
+            this.refreshAllToolStripMenuItem});
             this.contextEventGridMenu.Name = "contextMenuStrip1";
-            this.contextEventGridMenu.Size = new System.Drawing.Size(161, 114);
+            this.contextEventGridMenu.Size = new System.Drawing.Size(181, 158);
             // 
             // testToolStripMenuItem
             // 
@@ -261,15 +236,16 @@ namespace ScheduleR
             this.testToolStripMenuItem.Text = "Create event";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
-            // tabPage2
+            // tabPageGroups
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(672, 361);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPageGroups.Controls.Add(this.myDataGridView2);
+            this.tabPageGroups.Location = new System.Drawing.Point(4, 22);
+            this.tabPageGroups.Name = "tabPageGroups";
+            this.tabPageGroups.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGroups.Size = new System.Drawing.Size(672, 361);
+            this.tabPageGroups.TabIndex = 1;
+            this.tabPageGroups.Text = "Groups";
+            this.tabPageGroups.UseVisualStyleBackColor = true;
             // 
             // menuStrip1
             // 
@@ -338,12 +314,14 @@ namespace ScheduleR
             this.updateEventToolStripMenuItem.Name = "updateEventToolStripMenuItem";
             this.updateEventToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.updateEventToolStripMenuItem.Text = "Update event";
+            this.updateEventToolStripMenuItem.Click += new System.EventHandler(this.updateEventToolStripMenuItem_Click);
             // 
             // deleteEventToolStripMenuItem
             // 
             this.deleteEventToolStripMenuItem.Name = "deleteEventToolStripMenuItem";
-            this.deleteEventToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.deleteEventToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteEventToolStripMenuItem.Text = "Delete event";
+            this.deleteEventToolStripMenuItem.Click += new System.EventHandler(this.deleteEventToolStripMenuItem_Click);
             // 
             // publishEventToolStripMenuItem
             // 
@@ -356,6 +334,93 @@ namespace ScheduleR
             this.unpublishEventToolStripMenuItem.Name = "unpublishEventToolStripMenuItem";
             this.unpublishEventToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.unpublishEventToolStripMenuItem.Text = "Unpublish event";
+            // 
+            // commentTextBox
+            // 
+            this.commentTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.commentTextBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.commentTextBox.Location = new System.Drawing.Point(0, 0);
+            this.commentTextBox.Multiline = true;
+            this.commentTextBox.Name = "commentTextBox";
+            this.commentTextBox.Size = new System.Drawing.Size(183, 53);
+            this.commentTextBox.TabIndex = 12;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.commentCreateButton);
+            this.panel1.Controls.Add(this.commentTextBox);
+            this.panel1.Location = new System.Drawing.Point(405, 305);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(264, 53);
+            this.panel1.TabIndex = 13;
+            // 
+            // commentCreateButton
+            // 
+            this.commentCreateButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.commentCreateButton.Location = new System.Drawing.Point(189, 0);
+            this.commentCreateButton.Name = "commentCreateButton";
+            this.commentCreateButton.Size = new System.Drawing.Size(75, 53);
+            this.commentCreateButton.TabIndex = 13;
+            this.commentCreateButton.Text = "Create comment";
+            this.commentCreateButton.UseVisualStyleBackColor = true;
+            // 
+            // myDataGridView1
+            // 
+            this.myDataGridView1.AllowUserToAddRows = false;
+            this.myDataGridView1.AllowUserToDeleteRows = false;
+            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.commentOwnerId,
+            this.commentText,
+            this.isPublicComment});
+            this.myDataGridView1.Location = new System.Drawing.Point(405, 0);
+            this.myDataGridView1.Name = "myDataGridView1";
+            this.myDataGridView1.ReadOnly = true;
+            this.myDataGridView1.Size = new System.Drawing.Size(264, 302);
+            this.myDataGridView1.TabIndex = 8;
+            // 
+            // commentOwnerId
+            // 
+            this.commentOwnerId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.commentOwnerId.HeaderText = "Owner ID";
+            this.commentOwnerId.Name = "commentOwnerId";
+            this.commentOwnerId.ReadOnly = true;
+            this.commentOwnerId.Width = 77;
+            // 
+            // commentText
+            // 
+            this.commentText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.commentText.HeaderText = "Comment";
+            this.commentText.Name = "commentText";
+            this.commentText.ReadOnly = true;
+            // 
+            // isPublicComment
+            // 
+            this.isPublicComment.HeaderText = "Public";
+            this.isPublicComment.Name = "isPublicComment";
+            this.isPublicComment.ReadOnly = true;
+            this.isPublicComment.Width = 40;
+            // 
+            // eventGridView
+            // 
+            this.eventGridView.AllowUserToAddRows = false;
+            this.eventGridView.AllowUserToDeleteRows = false;
+            this.eventGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.eventGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.beginDTCol,
+            this.endDTCol,
+            this.headingCol,
+            this.isPublicEventCol});
+            this.eventGridView.ContextMenuStrip = this.contextEventGridMenu;
+            this.eventGridView.Location = new System.Drawing.Point(0, 0);
+            this.eventGridView.MultiSelect = false;
+            this.eventGridView.Name = "eventGridView";
+            this.eventGridView.ReadOnly = true;
+            this.eventGridView.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.eventGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.eventGridView.Size = new System.Drawing.Size(399, 170);
+            this.eventGridView.TabIndex = 1;
+            this.eventGridView.SelectionChanged += new System.EventHandler(this.eventGridView_SelectionChanged);
             // 
             // beginDTCol
             // 
@@ -389,65 +454,73 @@ namespace ScheduleR
             this.isPublicEventCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.isPublicEventCol.Width = 40;
             // 
-            // commentTextBox
+            // myDataGridView2
             // 
-            this.commentTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.commentTextBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.commentTextBox.Location = new System.Drawing.Point(0, 0);
-            this.commentTextBox.Multiline = true;
-            this.commentTextBox.Name = "commentTextBox";
-            this.commentTextBox.Size = new System.Drawing.Size(183, 53);
-            this.commentTextBox.TabIndex = 12;
+            this.myDataGridView2.AllowUserToAddRows = false;
+            this.myDataGridView2.AllowUserToDeleteRows = false;
+            this.myDataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.myDataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.groupId,
+            this.groupName,
+            this.groupAccessLevel,
+            this.groupMembMax,
+            this.isMyGroup});
+            this.myDataGridView2.Location = new System.Drawing.Point(8, 6);
+            this.myDataGridView2.Name = "myDataGridView2";
+            this.myDataGridView2.ReadOnly = true;
+            this.myDataGridView2.Size = new System.Drawing.Size(428, 162);
+            this.myDataGridView2.TabIndex = 0;
             // 
-            // panel1
+            // groupId
             // 
-            this.panel1.Controls.Add(this.commentCreateButton);
-            this.panel1.Controls.Add(this.commentTextBox);
-            this.panel1.Location = new System.Drawing.Point(405, 305);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(264, 53);
-            this.panel1.TabIndex = 13;
+            this.groupId.HeaderText = "group ID";
+            this.groupId.Name = "groupId";
+            this.groupId.ReadOnly = true;
+            this.groupId.Width = 60;
             // 
-            // commentCreateButton
+            // groupName
             // 
-            this.commentCreateButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.commentCreateButton.Location = new System.Drawing.Point(189, 0);
-            this.commentCreateButton.Name = "commentCreateButton";
-            this.commentCreateButton.Size = new System.Drawing.Size(75, 53);
-            this.commentCreateButton.TabIndex = 13;
-            this.commentCreateButton.Text = "Create comment";
-            this.commentCreateButton.UseVisualStyleBackColor = true;
+            this.groupName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.groupName.HeaderText = "Group name";
+            this.groupName.Name = "groupName";
+            this.groupName.ReadOnly = true;
             // 
-            // commentOwnerId
+            // groupAccessLevel
             // 
-            this.commentOwnerId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.commentOwnerId.HeaderText = "Owner ID";
-            this.commentOwnerId.Name = "commentOwnerId";
-            this.commentOwnerId.ReadOnly = true;
-            this.commentOwnerId.Width = 77;
+            this.groupAccessLevel.HeaderText = "Access level";
+            this.groupAccessLevel.Name = "groupAccessLevel";
+            this.groupAccessLevel.ReadOnly = true;
+            this.groupAccessLevel.Width = 50;
             // 
-            // commentText
+            // groupMembMax
             // 
-            this.commentText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.commentText.HeaderText = "Comment";
-            this.commentText.Name = "commentText";
-            this.commentText.ReadOnly = true;
+            this.groupMembMax.HeaderText = "Maximum of members";
+            this.groupMembMax.Name = "groupMembMax";
+            this.groupMembMax.ReadOnly = true;
+            this.groupMembMax.Width = 70;
             // 
-            // isPublicComment
+            // isMyGroup
             // 
-            this.isPublicComment.HeaderText = "Public";
-            this.isPublicComment.Name = "isPublicComment";
-            this.isPublicComment.ReadOnly = true;
-            this.isPublicComment.Width = 40;
+            this.isMyGroup.HeaderText = "My group";
+            this.isMyGroup.Name = "isMyGroup";
+            this.isMyGroup.ReadOnly = true;
+            this.isMyGroup.Width = 50;
             // 
             // consoleTextBox
             // 
             this.consoleTextBox.Dock = System.Windows.Forms.DockStyle.Right;
             this.consoleTextBox.Location = new System.Drawing.Point(686, 24);
-            this.consoleTextBox.Multiline = true;
             this.consoleTextBox.Name = "consoleTextBox";
             this.consoleTextBox.Size = new System.Drawing.Size(195, 387);
-            this.consoleTextBox.TabIndex = 2;
+            this.consoleTextBox.TabIndex = 4;
+            this.consoleTextBox.Text = "";
+            // 
+            // refreshAllToolStripMenuItem
+            // 
+            this.refreshAllToolStripMenuItem.Name = "refreshAllToolStripMenuItem";
+            this.refreshAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.refreshAllToolStripMenuItem.Text = "Refresh All";
+            this.refreshAllToolStripMenuItem.Click += new System.EventHandler(this.refreshAllToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -463,13 +536,15 @@ namespace ScheduleR
             this.UserTabControl.ResumeLayout(false);
             this.tabPageEvents.ResumeLayout(false);
             this.tabPageEvents.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.eventGridView)).EndInit();
             this.contextEventGridMenu.ResumeLayout(false);
+            this.tabPageGroups.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -479,7 +554,7 @@ namespace ScheduleR
 
         private System.Windows.Forms.TabControl UserTabControl;
         private System.Windows.Forms.TabPage tabPageEvents;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPageGroups;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
@@ -516,7 +591,14 @@ namespace ScheduleR
         private System.Windows.Forms.DataGridViewTextBoxColumn endDTCol;
         private System.Windows.Forms.DataGridViewTextBoxColumn headingCol;
         private System.Windows.Forms.DataGridViewCheckBoxColumn isPublicEventCol;
-        private System.Windows.Forms.TextBox consoleTextBox;
+        private Classes.MyDataGridView myDataGridView2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn groupId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn groupName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn groupAccessLevel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn groupMembMax;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isMyGroup;
+        public System.Windows.Forms.RichTextBox consoleTextBox;
+        private System.Windows.Forms.ToolStripMenuItem refreshAllToolStripMenuItem;
     }
 }
 

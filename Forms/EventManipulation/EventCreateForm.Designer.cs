@@ -85,7 +85,7 @@ namespace ScheduleR.Forms.EventManipulation
             // 
             // beginDateTimePicker
             // 
-            this.beginDateTimePicker.CustomFormat = "yyyy-MM-dd hh:mm";
+            this.beginDateTimePicker.CustomFormat = "yyyy-MM-dd HH:mm";
             this.beginDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.beginDateTimePicker.Location = new System.Drawing.Point(15, 185);
             this.beginDateTimePicker.Name = "beginDateTimePicker";
@@ -104,7 +104,7 @@ namespace ScheduleR.Forms.EventManipulation
             // 
             // endDateTimePicker
             // 
-            this.endDateTimePicker.CustomFormat = "yyyy-MM-dd hh:mm";
+            this.endDateTimePicker.CustomFormat = "yyyy-MM-dd HH:mm";
             this.endDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.endDateTimePicker.Location = new System.Drawing.Point(15, 237);
             this.endDateTimePicker.Name = "endDateTimePicker";

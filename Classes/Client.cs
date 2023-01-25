@@ -13,7 +13,7 @@ namespace ScheduleR.Classes
     public class Client
     {
         private MySqlConnection connection;
-        private uint userId;
+        public uint userId;
         private string userKey;
 
         public Client(string server, string database, string username, string password)
@@ -175,6 +175,70 @@ namespace ScheduleR.Classes
 
             ExecuteProcedure("complex_event_create", parameters);
             eventId = (uint)eventIdPar.Value;
+            queryStatusId = (uint)queryStatusIdPar.Value;
+        }
+
+        public void updateEvent(uint eventId, string heading, string text, DateTime begDT, DateTime endDT, out uint queryStatusId)
+        {
+            MySqlParameter eventIdPar = new MySqlParameter("@event_id", MySqlDbType.UInt32);
+            eventIdPar.Value = eventId;
+
+            MySqlParameter begDTPar = new MySqlParameter("@begin_dt", MySqlDbType.DateTime);
+            begDTPar.Value = begDT;
+
+            MySqlParameter endDTPar = new MySqlParameter("@end_dt", MySqlDbType.DateTime);
+            endDTPar.Value = endDT;
+
+            MySqlParameter headingPar = new MySqlParameter("@e_heading", MySqlDbType.VarChar);
+            headingPar.Value = heading;
+
+            MySqlParameter textPar = new MySqlParameter("@e_text", MySqlDbType.VarChar);
+            textPar.Value = text;
+
+            MySqlParameter custIdPar = new MySqlParameter("@cust_id", MySqlDbType.UInt32);
+            custIdPar.Value = userId;
+
+            MySqlParameter custKeyPar = new MySqlParameter("@cust_key", MySqlDbType.VarChar);
+            custKeyPar.Value = userKey;
+
+            MySqlParameter queryStatusIdPar = new MySqlParameter("@query_status", MySqlDbType.UInt32);
+            queryStatusIdPar.Direction = System.Data.ParameterDirection.Output;
+
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
+            parameters.Add(eventIdPar);
+            parameters.Add(begDTPar);
+            parameters.Add(endDTPar);
+            parameters.Add(headingPar);
+            parameters.Add(textPar);
+            parameters.Add(custIdPar);
+            parameters.Add(custKeyPar);
+            parameters.Add(queryStatusIdPar);
+
+            ExecuteProcedure("complex_event_update", parameters);
+            queryStatusId = (uint)queryStatusIdPar.Value;
+        }
+
+        public void deleteEvent(uint eventId, out uint queryStatusId)
+        {
+            MySqlParameter eventIdPar = new MySqlParameter("@event_id", MySqlDbType.UInt32);
+            eventIdPar.Value = eventId;
+
+            MySqlParameter custIdPar = new MySqlParameter("@cust_id", MySqlDbType.UInt32);
+            custIdPar.Value = userId;
+
+            MySqlParameter custKeyPar = new MySqlParameter("@cust_key", MySqlDbType.VarChar);
+            custKeyPar.Value = userKey;
+
+            MySqlParameter queryStatusIdPar = new MySqlParameter("@query_status", MySqlDbType.UInt32);
+            queryStatusIdPar.Direction = System.Data.ParameterDirection.Output;
+
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
+            parameters.Add(eventIdPar);
+            parameters.Add(custIdPar);
+            parameters.Add(custKeyPar);
+            parameters.Add(queryStatusIdPar);
+
+            ExecuteProcedure("complex_event_delete", parameters);
             queryStatusId = (uint)queryStatusIdPar.Value;
         }
         // ---- ---- ---- ----
