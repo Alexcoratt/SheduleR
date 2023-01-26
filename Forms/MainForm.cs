@@ -8,11 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using MySql.Data.MySqlClient;
-
 using ScheduleR.Classes;
-using ScheduleR.Classes.Queries;
 
+using ScheduleR.Forms;
 using ScheduleR.Forms.EventManipulation;
 using ScheduleR.Forms.UserManipulation;
 
@@ -21,23 +19,17 @@ namespace ScheduleR
     public partial class MainForm : Form
     {
         Client client;
-        LoginForm loginForm;
         Echo events;
         Echo groups;
         Echo users;
+        LoginForm loginForm;
 
-        public MainForm()
+        public MainForm(Client client, LoginForm loginForm)
         {
             InitializeComponent();
-            client = new Client("192.168.0.106", "scheduler_schema", "appclient", "appclient");
 
-            loginForm = new LoginForm(client, this);
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            SwitchTo(loginForm);
-            base.OnLoad(e);
+            this.client = client;
+            this.loginForm = loginForm;
         }
 
         public void OnLogin()
@@ -53,29 +45,16 @@ namespace ScheduleR
             {
                 client.LogOut();
                 loginForm.ReInit();
-                SwitchTo(loginForm);
-                ReInit();
+                loginForm.Show();
+                Close();
             }
-        }
-
-        public void SwitchTo(Form form)
-        {
-            Visible = false;
-            ShowInTaskbar = false;
-            form.Show();
-        }
-
-        public void ReInit()
-        {
-            Controls.Clear();
-            InitializeComponent();
         }
 
         public void ConsoleWriteLine(object str)
         {
             string line;
             if (str is null)
-                line = "\\null";
+                line = "null";
             else
                 line = str.ToString();
             consoleTextBox.Text += line + "\n";
@@ -85,7 +64,7 @@ namespace ScheduleR
         {
             string statusName, statusDescription;
             client.getQueryStatusInfo(queryStatusId, out statusName, out statusDescription);
-            ConsoleWriteLine(String.Format("Query status ID: {0}\nStatus name: {1}\nStatus description: {2}", queryStatusId, statusName, statusDescription));
+            ConsoleWriteLine(string.Format("Query status ID: {0}\nStatus name: {1}\nStatus description: {2}", queryStatusId, statusName, statusDescription));
         }
 
 
@@ -193,6 +172,12 @@ namespace ScheduleR
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RefreshUserGrid();
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            client.LogOut();
+            loginForm.Show();
         }
         // user methods <<<<
     }

@@ -84,15 +84,6 @@ namespace ScheduleR
             this.userIdLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.usersDataGridView = new ScheduleR.Classes.MyDataGridView();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.profileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.myProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.consoleTextBox = new System.Windows.Forms.RichTextBox();
             this.userId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.login = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -102,6 +93,15 @@ namespace ScheduleR
             this.registerUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.profileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.myProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.consoleTextBox = new System.Windows.Forms.RichTextBox();
             this.UserTabControl.SuspendLayout();
             this.tabPageEvents.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -112,8 +112,8 @@ namespace ScheduleR
             ((System.ComponentModel.ISupportInitialize)(this.groupGridView)).BeginInit();
             this.tabPageUsers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.usersDataGridView)).BeginInit();
-            this.menuStrip1.SuspendLayout();
             this.contextUserGridMenu.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // UserTabControl
@@ -375,7 +375,7 @@ namespace ScheduleR
             // refreshAllToolStripMenuItem
             // 
             this.refreshAllToolStripMenuItem.Name = "refreshAllToolStripMenuItem";
-            this.refreshAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.refreshAllToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.refreshAllToolStripMenuItem.Text = "Refresh";
             this.refreshAllToolStripMenuItem.Click += new System.EventHandler(this.refreshAllToolStripMenuItem_Click);
             // 
@@ -654,6 +654,69 @@ namespace ScheduleR
             this.usersDataGridView.Size = new System.Drawing.Size(666, 187);
             this.usersDataGridView.TabIndex = 0;
             // 
+            // userId
+            // 
+            this.userId.HeaderText = "User ID";
+            this.userId.Name = "userId";
+            this.userId.ReadOnly = true;
+            // 
+            // login
+            // 
+            this.login.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.login.HeaderText = "Login";
+            this.login.Name = "login";
+            this.login.ReadOnly = true;
+            // 
+            // lastName
+            // 
+            this.lastName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.lastName.HeaderText = "Last Name";
+            this.lastName.Name = "lastName";
+            this.lastName.ReadOnly = true;
+            // 
+            // firstName
+            // 
+            this.firstName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.firstName.HeaderText = "First Name";
+            this.firstName.Name = "firstName";
+            this.firstName.ReadOnly = true;
+            // 
+            // accessLevel
+            // 
+            this.accessLevel.HeaderText = "Access Level";
+            this.accessLevel.Name = "accessLevel";
+            this.accessLevel.ReadOnly = true;
+            // 
+            // contextUserGridMenu
+            // 
+            this.contextUserGridMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.registerUserToolStripMenuItem,
+            this.deleteUserToolStripMenuItem,
+            this.refreshToolStripMenuItem});
+            this.contextUserGridMenu.Name = "contextUserGridMenu";
+            this.contextUserGridMenu.Size = new System.Drawing.Size(142, 70);
+            // 
+            // registerUserToolStripMenuItem
+            // 
+            this.registerUserToolStripMenuItem.Name = "registerUserToolStripMenuItem";
+            this.registerUserToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.registerUserToolStripMenuItem.Text = "Register user";
+            this.registerUserToolStripMenuItem.Click += new System.EventHandler(this.registerUserToolStripMenuItem_Click);
+            // 
+            // deleteUserToolStripMenuItem
+            // 
+            this.deleteUserToolStripMenuItem.Name = "deleteUserToolStripMenuItem";
+            this.deleteUserToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.deleteUserToolStripMenuItem.Text = "Delete user";
+            this.deleteUserToolStripMenuItem.Click += new System.EventHandler(this.deleteUserToolStripMenuItem_Click);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -719,74 +782,12 @@ namespace ScheduleR
             // consoleTextBox
             // 
             this.consoleTextBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.consoleTextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.consoleTextBox.Location = new System.Drawing.Point(686, 24);
             this.consoleTextBox.Name = "consoleTextBox";
             this.consoleTextBox.Size = new System.Drawing.Size(195, 387);
             this.consoleTextBox.TabIndex = 4;
             this.consoleTextBox.Text = "";
-            // 
-            // userId
-            // 
-            this.userId.HeaderText = "User ID";
-            this.userId.Name = "userId";
-            this.userId.ReadOnly = true;
-            // 
-            // login
-            // 
-            this.login.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.login.HeaderText = "Login";
-            this.login.Name = "login";
-            this.login.ReadOnly = true;
-            // 
-            // lastName
-            // 
-            this.lastName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.lastName.HeaderText = "Last Name";
-            this.lastName.Name = "lastName";
-            this.lastName.ReadOnly = true;
-            // 
-            // firstName
-            // 
-            this.firstName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.firstName.HeaderText = "First Name";
-            this.firstName.Name = "firstName";
-            this.firstName.ReadOnly = true;
-            // 
-            // accessLevel
-            // 
-            this.accessLevel.HeaderText = "Access Level";
-            this.accessLevel.Name = "accessLevel";
-            this.accessLevel.ReadOnly = true;
-            // 
-            // contextUserGridMenu
-            // 
-            this.contextUserGridMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.registerUserToolStripMenuItem,
-            this.deleteUserToolStripMenuItem,
-            this.refreshToolStripMenuItem});
-            this.contextUserGridMenu.Name = "contextUserGridMenu";
-            this.contextUserGridMenu.Size = new System.Drawing.Size(181, 92);
-            // 
-            // registerUserToolStripMenuItem
-            // 
-            this.registerUserToolStripMenuItem.Name = "registerUserToolStripMenuItem";
-            this.registerUserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.registerUserToolStripMenuItem.Text = "Register user";
-            this.registerUserToolStripMenuItem.Click += new System.EventHandler(this.registerUserToolStripMenuItem_Click);
-            // 
-            // deleteUserToolStripMenuItem
-            // 
-            this.deleteUserToolStripMenuItem.Name = "deleteUserToolStripMenuItem";
-            this.deleteUserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.deleteUserToolStripMenuItem.Text = "Delete user";
-            this.deleteUserToolStripMenuItem.Click += new System.EventHandler(this.deleteUserToolStripMenuItem_Click);
-            // 
-            // refreshToolStripMenuItem
-            // 
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.refreshToolStripMenuItem.Text = "Refresh";
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -799,6 +800,7 @@ namespace ScheduleR
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "ScheduleR";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.UserTabControl.ResumeLayout(false);
             this.tabPageEvents.ResumeLayout(false);
             this.tabPageEvents.PerformLayout();
@@ -812,9 +814,9 @@ namespace ScheduleR
             this.tabPageUsers.ResumeLayout(false);
             this.tabPageUsers.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.usersDataGridView)).EndInit();
+            this.contextUserGridMenu.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.contextUserGridMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,5 +1,5 @@
 ﻿
-namespace ScheduleR
+namespace ScheduleR.Forms
 {
     partial class LoginForm
     {
@@ -39,12 +39,16 @@ namespace ScheduleR
             this.StatusLabel = new System.Windows.Forms.Label();
             this.SnapLabel = new System.Windows.Forms.Label();
             this.StatusDescriptionToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // LoginLabel
             // 
             this.LoginLabel.AutoSize = true;
-            this.LoginLabel.Location = new System.Drawing.Point(38, 38);
+            this.LoginLabel.Location = new System.Drawing.Point(42, 57);
             this.LoginLabel.Name = "LoginLabel";
             this.LoginLabel.Size = new System.Drawing.Size(33, 13);
             this.LoginLabel.TabIndex = 0;
@@ -53,7 +57,7 @@ namespace ScheduleR
             // PasswordLabel
             // 
             this.PasswordLabel.AutoSize = true;
-            this.PasswordLabel.Location = new System.Drawing.Point(38, 71);
+            this.PasswordLabel.Location = new System.Drawing.Point(42, 90);
             this.PasswordLabel.Name = "PasswordLabel";
             this.PasswordLabel.Size = new System.Drawing.Size(53, 13);
             this.PasswordLabel.TabIndex = 1;
@@ -61,14 +65,14 @@ namespace ScheduleR
             // 
             // LoginTextBox
             // 
-            this.LoginTextBox.Location = new System.Drawing.Point(97, 35);
+            this.LoginTextBox.Location = new System.Drawing.Point(101, 54);
             this.LoginTextBox.Name = "LoginTextBox";
             this.LoginTextBox.Size = new System.Drawing.Size(142, 20);
             this.LoginTextBox.TabIndex = 2;
             // 
             // PasswordTextBox
             // 
-            this.PasswordTextBox.Location = new System.Drawing.Point(97, 68);
+            this.PasswordTextBox.Location = new System.Drawing.Point(101, 87);
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(142, 20);
@@ -76,7 +80,7 @@ namespace ScheduleR
             // 
             // SubmitButton
             // 
-            this.SubmitButton.Location = new System.Drawing.Point(97, 147);
+            this.SubmitButton.Location = new System.Drawing.Point(105, 141);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(75, 23);
             this.SubmitButton.TabIndex = 4;
@@ -87,7 +91,7 @@ namespace ScheduleR
             // ObserverLink
             // 
             this.ObserverLink.AutoSize = true;
-            this.ObserverLink.Location = new System.Drawing.Point(80, 173);
+            this.ObserverLink.Location = new System.Drawing.Point(88, 167);
             this.ObserverLink.Name = "ObserverLink";
             this.ObserverLink.Size = new System.Drawing.Size(109, 13);
             this.ObserverLink.TabIndex = 5;
@@ -96,7 +100,7 @@ namespace ScheduleR
             // 
             // StatusLabel
             // 
-            this.StatusLabel.Location = new System.Drawing.Point(34, 112);
+            this.StatusLabel.Location = new System.Drawing.Point(42, 120);
             this.StatusLabel.Name = "StatusLabel";
             this.StatusLabel.Size = new System.Drawing.Size(201, 18);
             this.StatusLabel.TabIndex = 6;
@@ -107,9 +111,9 @@ namespace ScheduleR
             // SnapLabel
             // 
             this.SnapLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.SnapLabel.Location = new System.Drawing.Point(0, 0);
+            this.SnapLabel.Location = new System.Drawing.Point(0, 24);
             this.SnapLabel.Name = "SnapLabel";
-            this.SnapLabel.Size = new System.Drawing.Size(267, 17);
+            this.SnapLabel.Size = new System.Drawing.Size(288, 17);
             this.SnapLabel.TabIndex = 7;
             this.SnapLabel.Text = "___";
             this.SnapLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -119,11 +123,36 @@ namespace ScheduleR
             this.StatusDescriptionToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.StatusDescriptionToolTip.ToolTipTitle = "Status Description";
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(288, 24);
+            this.menuStrip1.TabIndex = 8;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(267, 203);
+            this.ClientSize = new System.Drawing.Size(288, 194);
             this.Controls.Add(this.SnapLabel);
             this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.ObserverLink);
@@ -132,9 +161,12 @@ namespace ScheduleR
             this.Controls.Add(this.LoginTextBox);
             this.Controls.Add(this.PasswordLabel);
             this.Controls.Add(this.LoginLabel);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "LoginForm";
             this.Text = "LoginForm";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LoginForm_FormClosed);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,5 +183,8 @@ namespace ScheduleR
         private System.Windows.Forms.Label StatusLabel;
         private System.Windows.Forms.Label SnapLabel;
         private System.Windows.Forms.ToolTip StatusDescriptionToolTip;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }
